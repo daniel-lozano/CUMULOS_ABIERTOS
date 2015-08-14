@@ -1,0 +1,22 @@
+//CODIGO//--------------------------------------//USO//
+
+//xgterm//--------------------------------------//terminal iraf//
+//xgterm -sb//----------------------------------//scroll bar//
+//xgterm -fn 10x20//----------------------------//tamaño de la terminal//
+//ecl// ----------------------------------------// habilita iraf y sus carpetas //
+
+
+----------------------EN "ecl"----------------------------------------------------------------
+
+//?//-------------------------------------------//para ver las tareas existentes//
+//"tarea"//-------------------------------------//para poder acceder a los codigos de la tarea//
+//bye// ----------------------------------------//cierra la tarea ultima tarea abierta//
+
+//rfits//---------------------------------------//desenpaqueta//
+//unlearn//-------------------------------------//olvida los parametros ya existentes en la tarea//
+// dir//----------------------------------------// mismo uso que "ls" pero organiza por extension //
+//imhead <imagen> //---------------------------//muestra el header de la imagen
+
+
+
+
