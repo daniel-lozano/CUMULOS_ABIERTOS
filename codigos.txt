@@ -32,9 +32,12 @@
 //     e          //------------------------------------------------------//se oprime dos veces "e" simulando las puntas de un reacuadro para hacer un zoom de la imagen
 //:l <numero> <numero>//------------------------------------//muestra un promedio de la suma de las lineas del primer numero al segundo
 //:c <numero> <numero>//------------------------------------//igual que :l pero con columnas
-//           C        //------------------------------------//cierra el programa implot
-
-
+//           C        //------------------------------------//cierra forzadamente el programa implot
+//          q         //-----------------------------------//cierra implot
+//implot @<lista>//----------------------------------------//abre una serie de imagenes
+//       n         //--------------------------------------// siguiete imagen al ver una lista de imagenes
+//       m         //-------------------------------------// imagen anterior, al ver una lista de imagenes
+//       ?         //-------------------------------------//muestra los comandos existentes para implot
 
 
 
