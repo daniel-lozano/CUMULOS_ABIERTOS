@@ -47,13 +47,28 @@ LOS SIGUIENTES COMANDOS ESTAN EN LOS PAQUETES DE NOAO, IMRED, BIAS (CCDRED)
 
 
 //phelp <comando>    //-----------------------------------------//da una descripcion detallada de un comando
+
 //epar <comando>     //-----------------------------------------//funcion para modificar los parametros de entrada de un comando
+
 //   colbias         //------------------------------------------//substrae la seccion de overscan
+
 //imstat <imagen>    //------------------------------------------//da un promedio de counts por pixel 
+
 // del <archivo>     //------------------------------------------//elimina archivos
+
 // ccdlist <archivo> //------------------------------------------//lista los archivos
+
 // ccdlist <archivo> l+ //---------------------------------------//lista archivos y dice que falta por hacer
-// ccdred (modifica param)//----------------------------------------------------//produce la limpieza de las imagenes por bias, flat y overscan
+
+// ccdred (modifica param)//------------------------------------//produce la limpieza de las imagenes por bias, flat y overscan
+
+// "combine" o "imcombine" //-----------------------------------//combina imagenes haciendo un promedio 
+
+// "hselect"  // -----------------------------------------------//modifica los headers
+
+
+
+
 
 
 
