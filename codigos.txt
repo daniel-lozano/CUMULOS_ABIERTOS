@@ -64,7 +64,10 @@ LOS SIGUIENTES COMANDOS ESTAN EN LOS PAQUETES DE NOAO, IMRED, BIAS (CCDRED)
 
 // "combine" o "imcombine" //-----------------------------------//combina imagenes haciendo un promedio 
 
-// "hselect"  // -----------------------------------------------//modifica los headers
+
+// hselect  <imagen> <parametro> //----------------------------//lee un parametro de los headers
+
+//   hedit <imagen> <parametro>   //----------------------------------------------//modifica los headers
 
 
 
