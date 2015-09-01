@@ -67,7 +67,10 @@ LOS SIGUIENTES COMANDOS ESTAN EN LOS PAQUETES DE NOAO, IMRED, BIAS (CCDRED)
 
 // hselect  <imagen> <parametro> //----------------------------//lee un parametro de los headers
 
-//   hedit <imagen> <parametro>   //----------------------------------------------//modifica los headers
+//   hedit <imagen> <parametro>   //---------------------------//modifica los headers
+
+// zerocombine <lista> //--------------------------------------// combina una lista de bias (debe tener info en el header)
+
 
 
 
