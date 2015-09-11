@@ -21,7 +21,11 @@
 //unlearn //-------------------------------------//olvida los parametros ya existentes en la tarea//
 // dir    //----------------------------------------// mismo uso que "ls" pero organiza por extension //
 
+
 ---------------------EN_"implot"----------------------------------------------------------------
+
+
+
 
 //implot <imagen>//----------------------------------------//abre una imagen//
 //   spacebar    //----------------------------------------//da cuenta de la posicion [x,y] de un pixel
@@ -63,20 +67,7 @@ LOS SIGUIENTES COMANDOS ESTAN EN LOS PAQUETES DE NOAO, IMRED, BIAS (CCDRED)
 
 // hselect  <imagen> <parametro> //----------------------------//lee un parametro de los headers
 
-//   hedit <imagen> <parametro>   //---------------------------//modifica los headers
-
-// zerocombine <lista> //--------------------------------------// combina una lista de bias (debe tener info en el header)
-
-
----------------Fotometria de apertura (paquetes "astutil","digiphot"&"apphot")-
-
-
-
-// setairmass <imagen> update-  //--------------------------//actualiza la masa de aire de una image
-
-// imexam    //-----------------------------------------// desplegado en el ds9 y da comandos de analisis
-
-// imexam r//------------------------------------------//muestra el perfil de cuentas 
+//   hedit <imagen> <parametro>   //----------------------------------------------//modifica los headers
 
 
 
