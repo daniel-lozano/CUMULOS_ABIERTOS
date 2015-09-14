@@ -1,0 +1,93 @@
+//CODIGO//--------------------------------------//USO//
+
+//xgterm//--------------------------------------//terminal iraf//
+//xgterm -sb//----------------------------------//scroll bar//
+//xgterm -fn 10x20//----------------------------//tamaño de la terminal//
+//ecl// ----------------------------------------// habilita iraf y sus carpetas //
+
+
+----------------------EN_"ecl"----------------------------------------------------------------
+
+
+
+// clear  //---------------------------------------//limpia pantalla//
+//  ?    //-------------------------------------------//para ver las tareas existentes//
+//"tarea"//-------------------------------------//para poder acceder a los codigos de la tarea//
+//  bye  //----------------------------------------//cierra la tarea ultima tarea abierta//
+
+//rfits <imagen>  //---------------------------------------//desenpaqueta//
+//imhead <imagen> //---------------------------//muestra el header de la imagen
+//imhead <imagen> l+ //------------------------//muestra los headers con mayor informacion
+//unlearn //-------------------------------------//olvida los parametros ya existentes en la tarea//
+// dir    //----------------------------------------// mismo uso que "ls" pero organiza por extension //
+
+---------------------EN_"implot"----------------------------------------------------------------
+
+//implot <imagen>//----------------------------------------//abre una imagen//
+//   spacebar    //----------------------------------------//da cuenta de la posicion [x,y] de un pixel
+//     e          //------------------------------------------------------//se oprime dos veces "e" simulando las puntas de un reacuadro para hacer un zoom de la imagen
+//:l <numero> <numero>//------------------------------------//muestra un promedio de la suma de las lineas del primer numero al segundo
+//:c <numero> <numero>//------------------------------------//igual que :l pero con columnas
+//           C        //------------------------------------//cierra forzadamente el programa implot
+//          q         //-----------------------------------//cierra implot
+//implot @<lista>//----------------------------------------//abre una serie de imagenes
+//       n         //--------------------------------------// siguiete imagen al ver una lista de imagenes
+//       m         //-------------------------------------// imagen anterior, al ver una lista de imagenes
+//       ?         //-------------------------------------//muestra los comandos existentes para implot
+
+
+
+---------------------Otros_comandos---------------------------------------------------------------
+
+LOS SIGUIENTES COMANDOS ESTAN EN LOS PAQUETES DE NOAO, IMRED, BIAS (CCDRED)
+
+
+//phelp <comando>    //-----------------------------------------//da una descripcion detallada de un comando
+
+//epar <comando>     //-----------------------------------------//funcion para modificar los parametros de entrada de un comando
+
+//   colbias         //------------------------------------------//substrae la seccion de overscan
+
+//imstat <imagen>    //------------------------------------------//da un promedio de counts por pixel 
+
+// del <archivo>     //------------------------------------------//elimina archivos
+
+// ccdlist <archivo> //------------------------------------------//lista los archivos
+
+// ccdlist <archivo> l+ //---------------------------------------//lista archivos y dice que falta por hacer
+
+// ccdred (modifica param)//------------------------------------//produce la limpieza de las imagenes por bias, flat y overscan
+
+// "combine" o "imcombine" //-----------------------------------//combina imagenes haciendo un promedio 
+
+
+// hselect  <imagen> <parametro> //----------------------------//lee un parametro de los headers
+
+//   hedit <imagen> <parametro>   //---------------------------//modifica los headers
+
+// zerocombine <lista> //--------------------------------------// combina una lista de bias (debe tener info en el header)
+
+
+---------------Fotometria de apertura (paquetes "astutil","digiphot"&"apphot")-
+
+
+
+// setairmass <imagen> update-  //--------------------------//actualiza la masa de aire de una image
+
+// imexam    //-----------------------------------------// desplegado en el ds9 y da comandos de analisis
+
+// imexam r//------------------------------------------//muestra el perfil de cuentas 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
