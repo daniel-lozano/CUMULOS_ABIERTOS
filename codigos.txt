@@ -78,6 +78,56 @@ LOS SIGUIENTES COMANDOS ESTAN EN LOS PAQUETES DE NOAO, IMRED, BIAS (CCDRED)
 
 // imexam r//------------------------------------------//muestra el perfil de cuentas 
 
+--------------------Fotometria de apertura usando DAOPHOT-----------------------
+
+paquetes para entrar: noao-digiphot-daophot
+
+// daoedit //---------------------------------//funciona con el ds9,  da informacion de FWHM, sky
+mean, sky sigma
+
+En este punto se deben editar las tareas FINDPARS y DATAPARS para continuar
+con las sigueintes tareas. Para esto la tarea DAOEDIT nos ha sido de ayuda
+para encontrar los valores requeridos en estas dos tareas. Algunos de los
+valores en estas tareas NO deben ser cambiados ya que cambiarian los datos
+significativamente, un ejemplo es el parametro SCALE para DATAPARS, que para
+efectos practicos (y dada la ciencia que se esta practicando) debe siempre ser
+igual a 1.
+
+la tarea DATAPARS necesita los siguientes valores:
+FWHM, Sky sigma, datamin (SKY-5*skySigma), readnoise, epadu, exposure time=
+EXPTIME, airmass= AIRMASS, filters=FILTERS, obstime= UTMIDDLE.
+
+Note que algunos de los parametros pueden ser leidos en los headers de las
+imagenes al poner las palabras claves de los headers en estos parametros.
+
+La tarea FINDPARS, por ahora, solo necesita recibir como parametros el
+THRESHOLD, este parametro es el numero de cuentas minimas para que el comando
+DAOFIND tome un punto de la imagen como un objeto. El threshold es el numero
+de "sky sigmas" que tomara la tarea DAOFIND.
+
+
+
+// daofind //--------------------------------//encuentra objetos en una imagen
+, crea un archivo <imagen>.coo
+// tvmark <imagen.coo> mar=cir rad=3//--------------//marca las estrellas en
+la pantalla 
+
+//txdumb >> imagen.coo| respuesta imagen.coo.1, xc,yc//----------crea una
+lista de todas las estrellas que son utiles paa daophot
+
+//photpars//----------------------------------//edita parametros de la
+fotometria
+
+//centerpars//-------------------------------//edita parametros del centro de
+la apertura
+
+//fitskypars//------------------------------//edita parametros del fit del
+cielo
+
+
+// phot <imagen> coords=<imagen>.coo.1//--------------//hace la fotometria de
+apertura
+
 
 
 
