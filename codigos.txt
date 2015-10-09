@@ -115,18 +115,38 @@ la pantalla
 //txdumb >> imagen.coo| respuesta imagen.coo.1, xc,yc//----------crea una
 lista de todas las estrellas que son utiles paa daophot
 
-//photpars//----------------------------------//edita parametros de la
-fotometria
-
-//centerpars//-------------------------------//edita parametros del centro de
-la apertura
-
-//fitskypars//------------------------------//edita parametros del fit del
-cielo
-
 
 // phot <imagen> coords=<imagen>.coo.1//--------------//hace la fotometria de
 apertura
+
+
+A partir de eeste momento se utilizara la funcion PHOT, este comando crea una
+lista de magnitudes de las estrellas previamente halladas por la tarea
+daofind, o por otros medios. Para correr esta tarea es necesario modificar los
+parametros de la misma (agregando una imagen de entrada y una imagen
+relacionada con un archivo de coordenadas de este <imagen>.coo.1) como
+tambien los parametros de las tareas DATAPARS, CENTERPARS,  FITSKYPARS y
+PHOTPARS. Los parametros listados necesarios para cada tarea son los
+siguientes:
+
+DATAPARS:,FWHM, sky sigma, datamin, epadu, obstime, readnoise, filters,
+airmass, exptime.
+
+CENTERPARS: calgori (algoritmo que halla los centros), cbox (en general es
+recomendable dejar este parametro en el valor 5).
+
+FITSKYPARS: salgori (algoritmo que halla un valor del cielo), annulus (radio
+interior del anillo) y dannulus (ancho del anillo del cielo).
+
+PHOTPARS: aperture(este valor sera el radio de apertura para el cual se hara
+la fotometria de apertura, este valor es un numero entero que se multiplicara
+por el FWHM dado en DATAPARS, es importante notar que en este anillo debe caer
+la mayor cantidad de señal posible. Se recomienda que el valor de aperture se
+3, 4 o 5 veces el FWHM.
+
+Al ser modificados estos parametros el comando PHOT puede ser ejecutado. Este
+comando dara como resultado un archivo llamado <imagen>.mag.1 donde estaran
+las magnitudes calculadas por el programa.
 
 
 
