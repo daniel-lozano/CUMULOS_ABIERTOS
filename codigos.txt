@@ -1,5 +1,7 @@
 //CODIGO//--------------------------------------//USO//
 
+
+//sudo zypper install <programa//---------------//installa en opensuse un programa
 //xgterm//--------------------------------------//terminal iraf//
 //xgterm -sb//----------------------------------//scroll bar//
 //xgterm -fn 10x20//----------------------------//tamaño de la terminal//
