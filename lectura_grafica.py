@@ -20,6 +20,7 @@ Y="$ "+ str(sys.argv[-1]) + " $"
 plt.plot(x,y)
 plt.xlabel(X,size=20)
 plt.ylabel(Y,size=20)
+plt.gca().invert_xaxis()
 plt.show()
 plt.close()
 
