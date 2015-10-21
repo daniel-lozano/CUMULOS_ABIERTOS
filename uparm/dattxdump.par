@@ -1,0 +1,6 @@
+textfiles,s,a,"m92014.fits.mag.1",,,"Input apphot/daophot text database(s)"
+fields,s,a,"ID,XCENTER,YCENTER,MAG,MERR,ITIME,STDEV,SSKEW",,,"Fields to be extracted"
+expr,s,a,"yes",,,"Boolean expression for record selection"
+headers,b,h,no,,,"Print the field headers ?"
+parameters,b,h,yes,,,"Print the parameters if headers is yes ?"
+mode,s,h,"ql",,,"Mode of task"

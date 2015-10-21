@@ -1,0 +1,27 @@
+#K DATAMAX    = INDEF                   counts     %-23.7g   
+   182.319    7.264      0.000   0.000   INDEF   INDEF          106  BadFit    \
+   187.554    85.149     0.000   0.000   INDEF   INDEF          106  BadFit    \
+   150.240    104.390    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   16.171     104.887    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   293.011    123.602    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   202.144    130.807    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   307.268    174.068    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   36.746     180.839    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   285.846    195.033    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   93.276     218.239    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   58.729     229.738    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   160.837    238.234    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   201.230    238.308    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   138.168    260.901    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   3.00     0.            0.         0.            INDEF  INDEF 301  OffImage   
+   220.858    297.939    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   204.361    326.176    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   266.132    362.630    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   261.327    384.057    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   205.414    407.021    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   237.025    419.774    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   252.657    418.473    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   99.782     428.135    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   253.247    464.563    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   173.871    500.794    0.000   0.000   INDEF   INDEF          106  BadFit    \
+   3.00     0.            0.         0.            INDEF  INDEF 301  OffImage   

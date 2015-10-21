@@ -1,0 +1,379 @@
+%!PS-Adobe-1.0
+%%Creator: pegasus:jbarnes (Jeannette Barnes)
+%%Title: ccd2
+%%CreationDate: Sat Sep 18 15:03:41 1993
+%%DocumentFonts: Courier-Bold Courier Times-Roman Times-Bold Helvetica-Bold
+% Start of enscript.pro -- prolog for text file translator
+% Copyright (c) 1984,1985,1987 Adobe Systems Incorporated. All Rights Reserved. 
+% GOVERNMENT END USERS: See Notice file in TranScript library directory
+% -- probably /usr/lib/ps/Notice
+% RCSID: $Header: enscript.pro,v 2.2 87/11/17 16:39:56 byron Rel $
+save/EnscriptJob exch def
+/StartEnscriptDoc{$enscript begin}def
+/$enscript 50 dict def $enscript begin
+/EndEnscriptDoc{end}def
+/S/show load def
+/X{exch 0 rmoveto S}def
+/Y{exch 0 exch rmoveto S}def
+/B{3 1 roll moveto S}def
+/F{$fd exch get setfont}def
+/StartPage{/svpg save def .05 dup scale}def
+/EndPage{svpg restore showpage}def
+/DoPreFeed{/statusdict where{pop
+ statusdict/prefeed known{statusdict exch/prefeed exch put 0}if}if pop}def
+/Landscape{90 rotate 0 -15840 translate}def
+/SetUpFonts
+ {dup/$fd exch array def{findfont exch scalefont $fd 3 1 roll put}repeat}def
+/InitGaudy{/TwoColumn exch def /BarLength exch def
+ /ftD /Times-Bold findfont 12 UP scalefont def
+ /ftF /Times-Roman findfont 14 UP scalefont def
+ /ftP /Helvetica-Bold findfont 30 UP scalefont def}def
+/U{1440 mul}def
+/UP{U 72 div}def
+/LB{/pts exch UP def /charcolor exch def /boxcolor exch def /font exch def
+ /label exch def /dy exch def /dx exch def /lly exch def /llx exch def
+ gsave boxcolor setgray
+ llx lly moveto dx 0 rlineto 0 dy rlineto dx neg 0 rlineto closepath fill
+ /lines label length def
+ /yp lly dy add dy lines pts mul sub 2 div sub pts .85 mul sub def
+ font setfont charcolor setgray
+ label {dup stringwidth pop 2 div llx dx 2 div add exch sub yp moveto show
+   /yp yp pts sub def}forall grestore}def
+/Gaudy{/Page exch def /Date exch def /File exch def /Comment exch def
+ .25 U 10.2 U BarLength .1 sub U .25 U [File] ftF .97 0 14 LB
+ .25 U 10.45 U BarLength .1 sub U .25 U [Comment] ftF 1 0 14 LB
+ .25 U 10.2 U 1 U .5 U Date ftD .7 0 12 LB
+ BarLength .75 sub U 10.2 U 1 U .5 U [Page] ftP .7 1 30 LB
+ TwoColumn{BarLength 2 div .19 add U 10.2 U moveto 0 -10 U rlineto stroke}if
+}def
+end
+StartEnscriptDoc % end fixed prolog
+1 200 /Courier-Bold
+0 140 /Courier
+2 SetUpFonts
+10.55 true InitGaudy
+%%EndProlog
+%%Page: ? 1
+StartPage
+Landscape
+()(ccd2)[(93/09/17)(14:31:34)](1)Gaudy
+0 F
+2544 14310(IRAF TUTORIAL SESSIONS)B
+3048 13990(Exercise 3.)B
+360 13510(This exercise is similar to Exercise 2., except that in this exercise we are)B
+360 13350(going to deal with spectroscopic data.  We will do the preliminary data)B
+360 13190(reductions using tasks in the CCDRED and TWODSPEC.LONGSLIT packages.  The data)B
+360 13030(that we will be using were taken on Kitt Peak at the Coude Feed telescope by)B
+360 12870(Dr. Philip Massey. )B
+360 12550(We will assume that you are logged into IRAF in an xterm window, or a similar)B
+360 12390(graphics terminal emulator window.)B
+360 12070(Go to your IRAF home directory and then CD to the directory containing the)B
+360 11910(spectroscopic data.  After unpacking the data with RFITS, look at the headers - )B
+360 11750(there should be ten bias frames, three sky flats, four quartz lamps to be used)B
+360 11590(as flat field frames \(called just flats to distinguish them from the sky flats\),)B
+360 11430(two comparison lamps, and several object frames.)B
+1200 11110(cl> cd)B
+1200 10950(cl> cd exercises/spec)B
+1200 10790(cl> unlearn rfits)B
+1200 10630(cl> rfits fsp* "" junk old+)B
+1200 10470(cl> dir)B
+1200 10310(cl> imhead sp*.imh)B
+360 9990(Load the CCDRED package.)B
+1200 9670(cl> package)B
+1200 9510(cl> ????)B
+360 9190(We will use the keywords and their values in the image headers to help us)B
+360 9030(process the data using the task CCDPROC.  All of our sample data were taken)B
+360 8870(at the same grating tilt so we do not need to worry about a "subset" keyword)B
+360 8710(as we did in the previous exercise \(although the Coude enters a keyword)B
+360 8550(called GRATPOS for this purpose\).)B
+1200 8230(cl> unlearn ccdred           # do you remember what this does?)B
+1200 8070(cl> imhead sp0020 l+)B
+1200 7910(cl> ccdlist sp*.imh)B
+360 7590(Notice that we really do not need to run SETINSTRUMENT in order for the)B
+360 7430(keywords and values in the image headers to be recognized by the package, i.e.,)B
+360 7270(no translation file is needed.  The image headers contain the parameters and)B
+360 7110(values expected by the package.  But we still may want to do this anyway, since)B
+360 6950(SETINSTRUMENT also runs a script file that sets up default parameters for the)B
+360 6790(task CCDPROC.)B
+1200 6470(cl> dir ccddb$kpno           # notice the *.cl files)B
+1200 6310(cl> type ccddb$kpno/coude.cl)B
+1200 6150(cl> setinstrument)B
+1536 5990(?)B
+1536 5830(coude)B
+1200 5510([we are now looking at the package parameters for CCDRED - there)B
+1284 5350(is nothing to change here - type :q])B
+1200 5030([now we are looking at the parameters for the task CCDPROC - there)B
+1284 4870(is nothing to modify at this time - notice the processing steps)B
+1284 4710(that we will do for these data - "flatcor" has been set to "no")B
+1284 4550(for now - type :q])B
+7920 14470(Remember that this time we have 10 bias frames.  We need to combine those)B
+7920 14310(into a single frame.  Let's do that next.  I think the parameters for )B
+7920 14150(ZEROCOMBINE, the task we will use to do this combining, are just fine.  The)B
+7920 13990(frames will be averaged, rejecting the lowest and highest value for each)B
+7920 13830(pixel position.)B
+8760 13510(cl> lpar zerocombine)B
+7920 13190(My parameters looked like this.)B
+7920 12870(cl> lpar zerocombine)B
+8592 12710(input =                 List of zero level images to combine)B
+8424 12550(\(output = "Zero"\)         Output zero level name)B
+8340 12390(\(combine = "average"\)      Type of combine operation)B
+8424 12230(\(reject = "minmax"\)       Type of rejection)B
+8340 12070(\(ccdtype = "zero"\)         CCD image type to combine)B
+8340 11910(\(process = no\)             Process images before combining?)B
+8424 11750(\(delete = no\)             Delete input images after combining?)B
+8340 11590(\(clobber = no\)             Clobber existing output image?)B
+8508 11430(\(scale = "none"\)         Image scaling)B
+8340 11270(\(statsec = ""\)             Image section for computing statistics)B
+8592 11110(\(nlow = 0\)              minmax: Number of low pixels to reject)B
+8508 10950(\(nhigh = 1\)              minmax: Number of high pixels to reject)B
+8508 10790(\(nkeep = 1\)              Minimum to keep \(pos\) or maximum to reject \(neg)B
+8508 10630(\(mclip = yes\)            Use median in sigma clipping algorithms?)B
+8424 10470(\(lsigma = 3.\)             Lower sigma clipping factor)B
+8424 10310(\(hsigma = 3.\)             Upper sigma clipping factor)B
+8340 10150(\(rdnoise = "0."\)           ccdclip: CCD readout noise \(electrons\))B
+8592 9990(\(gain = "1."\)           ccdclip: CCD gain \(electrons/DN\))B
+8424 9830(\(snoise = "0."\)           ccdclip: Sensitivity noise \(fraction\))B
+8508 9670(\(pclip = -0.5\)           pclip: Percentile clipping parameter)B
+8508 9510(\(blank = 0.\)             Value if there are no pixels)B
+8592 9350(\(mode = "ql"\)      )B
+7920 9030(Notice that we can use all of the sp*.imh images as input to this task.  )B
+7920 8870(ZEROCOMBINE will only process the "zero" frames.)B
+8760 8550(cl> zerocombine sp*.imh)B
+7920 8230(Running IMSTATISTICS on the raw biases and the combined bias will show that)B
+7920 8070(we have indeed improved our noise statistics.)B
+8760 7750(cl> imstat sp000?.imh,sp0010,Zero)B
+8760 7590(cl> display Zero 1 fill+            # why fill+ ?)B
+8760 7430(cl> implot Zero)B
+7920 7110(Now we need to determine the overscan region and the trim parameters for these)B
+7920 6950(data.  Look at one of the flats to determine this information.)B
+8760 6630(cl> implot sp0014)B
+7920 6310(The overscan region is in the last 32 columns.  Expand the region and )B
+7920 6150(determine the columns you want to use.  I used 105-130.  What do you)B
+7920 5990(think?)B
+7920 5670(When you determine the trim parameters it is important that you only keep)B
+7920 5510(that part of the image where there is actual signal.  I chose 34-74)B
+7920 5350(for the columns and 1-1022 for the rows.  What about you?)B
+7920 5030(I just bet these values are different than what is in the image header)B
+7920 4870(for the BIASSEC and TRIMSEC keywords, but you may want to check anyway.)B
+8844 4550(cl> imhead sp0020 l+)B
+EndPage
+%%Page: ? 2
+StartPage
+Landscape
+()(ccd2)[(93/09/17)(14:31:34)](2)Gaudy
+0 F
+360 14470(Now we are ready to EPAR the task CCDPROC and set the "biassec" and )B
+360 14310("trimsec" parameters, and to identify the "zerocor" image.  We will leave)B
+360 14150("ccdtype" set to the null character so that all images in the input list will)B
+360 13990(be processed.)B
+1284 13670(cl> epar ccdproc)B
+360 13350(This is what my parameter file looked like.)B
+360 13030(cc> lpar ccdproc)B
+948 12870(images = ""              List of CCD images to correct)B
+780 12710(\(ccdtype = ""\)             CCD image type to correct)B
+612 12550(\(max_cache = 0\)              Maximum image caching memory \(in Mbytes\))B
+864 12390(\(noproc = no\)             List processing steps only?\\n)B
+864 12230(\(fixpix = no\)             Fix bad CCD lines and columns?)B
+696 12070(\(overscan = yes\)            Apply overscan strip correction?)B
+1032 11910(\(trim = yes\)            Trim the image?)B
+780 11750(\(zerocor = yes\)            Apply zero level correction?)B
+780 11590(\(darkcor = no\)             Apply dark count correction?)B
+780 11430(\(flatcor = no\)             Apply flat field correction?)B
+696 11270(\(illumcor = no\)             Apply illumination correction?)B
+612 11110(\(fringecor = no\)             Apply fringe correction?)B
+780 10950(\(readcor = no\)             Convert zero level image to readout correction?)B
+780 10790(\(scancor = no\)             Convert flat field image to scan correction?\\n)B
+696 10630(\(readaxis = "line"\)         Read out axis \(column|line\))B
+780 10470(\(fixfile = ""\)             File describing the bad lines and columns)B
+780 10310(\(biassec = "[105:130,1:1022]"\) Overscan strip image section)B
+780 10150(\(trimsec = "[34:74,1:1022]"\) Trim data section)B
+1032 9990(\(zero = "Zero"\)         Zero level calibration image)B
+1032 9830(\(dark = ""\)             Dark count calibration image)B
+1032 9670(\(flat = ""\)             Flat field images)B
+948 9510(\(illum = ""\)             Illumination correction images)B
+864 9350(\(fringe = ""\)             Fringe correction images)B
+528 9190(\(minreplace = 1.\)             Minimum flat field value)B
+696 9030(\(scantype = "shortscan"\)    Scan type \(shortscan|longscan\))B
+948 8870(\(nscan = 1\)              Number of short scan lines\\n)B
+444 8710(\(interactive = yes\)            Fit overscan interactively?)B
+696 8550(\(function = "chebyshev"\)    Fitting function)B
+948 8390(\(order = 1\)              Number of polynomial terms or spline pieces)B
+864 8230(\(sample = "*"\)            Sample points to fit)B
+696 8070(\(naverage = 1\)              Number of sample points to combine)B
+696 7910(\(niterate = 1\)              Number of rejection iterations)B
+528 7750(\(low_reject = 3.\)             Low sigma rejection factor)B
+444 7590(\(high_reject = 3.\)             High sigma rejection factor)B
+1032 7430(\(grow = 0.\)             Rejection growing radius)B
+1032 7270(\(mode = "ql"\)  )B
+360 6950(Now we are ready to combine our flats - there are four of them.  We will)B
+360 6790(use FLATCOMBINE to do this; we will process the images before we combine)B
+360 6630(them, however.  That is why we needed to setup the parameters for CCDPROC)B
+360 6470(first.  FLATCOMBINE will run CCDPROC on our flats when "process=yes". )B
+360 6310(Overplot the flats first to see how they look and then EPAR the task)B
+360 6150(FLATCOMBINE to look like my set of parameters below.  Let's use)B
+360 5990(the "crreject" rejection algorithm that requires the "rdnoise" and "gain")B
+360 5830(parameters \(that just happen to be in our headers\).)B
+1284 5510(cl> implot sp0014)B
+1620 5350(:i sp0015)B
+1620 5190(o)B
+1620 5030(:l 512)B
+1620 4870(:i sp0016)B
+1620 4710(o)B
+1620 4550(:l 512)B
+1620 4390(:i sp0017)B
+9180 14470(o)B
+9180 14310(:l 512)B
+8844 14150(cl> imhead sp0014 l+       # see readnoise and gain in header)B
+8844 13990(cl> phelp combine          # FLATCOMBINE is really a script calling)B
+11280 13830(the task COMBINE)B
+8844 13670(cl> epar flatcombine)B
+7920 13350(My parameter file looked like this.)B
+7920 13030(> lpar flatcombine)B
+8592 12870(input =                 List of flat field images to combine)B
+8424 12710(\(output = "Flat"\)         Output flat field root name)B
+8340 12550(\(combine = "average"\)      Type of combine operation)B
+8424 12390(\(reject = "crreject"\)     Type of rejection)B
+8340 12230(\(ccdtype = "flat"\)         CCD image type to combine)B
+8340 12070(\(process = yes\)            Process images before combining?)B
+8340 11910(\(subsets = no\)             Combine images by subset parameter?)B
+8424 11750(\(delete = no\)             Delete input images after combining?)B
+8340 11590(\(clobber = no\)             Clobber existing output image?)B
+8508 11430(\(scale = "mode"\)         Image scaling)B
+8340 11270(\(statsec = ""\)             Image section for computing statistics)B
+8592 11110(\(nlow = 1\)              minmax: Number of low pixels to reject)B
+8508 10950(\(nhigh = 1\)              minmax: Number of high pixels to reject)B
+8508 10790(\(nkeep = 1\)              Minimum to keep \(pos\) or maximum to reject \(neg)B
+8508 10630(\(mclip = yes\)            Use median in sigma clipping algorithms?)B
+8424 10470(\(lsigma = 3.\)             Lower sigma clipping factor)B
+8424 10310(\(hsigma = 3.\)             Upper sigma clipping factor)B
+8340 10150(\(rdnoise = "rdnoise"\)      ccdclip: CCD readout noise \(electrons\))B
+8592 9990(\(gain = "gain"\)         ccdclip: CCD gain \(electrons/DN\))B
+8424 9830(\(snoise = "0."\)           ccdclip: Sensitivity noise \(fraction\))B
+8508 9670(\(pclip = -0.5\)           pclip: Percentile clipping parameter)B
+8508 9510(\(blank = 1.\)             Value if there are no pixels)B
+8592 9350(\(mode = "ql"\)  )B
+7920 8870(Now run FLATCOMBINE.)B
+8844 8550(cl> flatcombine sp*.imh)B
+8844 8390(cl> imhead Flat)B
+8844 8230(cl> implot Flat)B
+7920 7910(Now we are ready to process our sky flats, objects, and comps - at least)B
+7920 7750(subtract the overscan, trim, and zero correct them.)B
+8844 7430(cl> files sp*.imh > plist)B
+8844 7270(cl> edit plist               # delete biases and flats from plist)B
+8844 7110(cl> ccdlist @plist)B
+8844 6950(cl> ccdproc @plist)B
+8844 6630([when you get tired of looking at the overscan plot type "NO" )B
+8928 6470(when you are asked if you want to fit it interactively.])B
+8844 6150(cl> ccdlist @plist           # notice reduction flags)B
+8844 5990(cl> imhead sp0025 l+         # notice reduction history)B
+7920 5670(Now we are ready to look at the flat fielding for this data set.  Up until)B
+7920 5510(now, the processing has been quite similar to what we did earlier, just )B
+7920 5350(a little more complex.)B
+7920 5030(One way to generate a normalized flat field for spectroscopic data is to)B
+7920 4870(use the task RESPONSE in the TWODSPEC.LONGSLIT package.  In our case, all)B
+7920 4710(of the columns for the flat will be summed together, we will fit this sum)B
+7920 4550(with a function, and that function will then be divided into each column)B
+7920 4390(of the input flat.  This will produce our response function.  The task)B
+EndPage
+%%Page: ? 3
+StartPage
+Landscape
+()(ccd2)[(93/09/17)(14:31:34)](3)Gaudy
+0 F
+360 14470(RESPONSE uses the Interactive Curve Fitting \(ICFIT\) routine that is used)B
+360 14310(throughout the NOAO reduction tasks.)B
+1284 13990(cl> twodspec)B
+1284 13830(cl> longslit)B
+1284 13670(cl> unlearn response)B
+1284 13510(cl> phelp response)B
+1284 13350(cl> lpar response)B
+1284 13190(cl> response Flat Flat Resp)B
+1284 12870([the dispersion will be along the columns = 2])B
+1620 12550(?                     # look at cursor options)B
+1620 12390(:function cheby)B
+1620 12230(:order 5)B
+1620 12070(f)B
+1620 11910(k)B
+1620 11750(h)B
+1620 11590(q)B
+1284 11430(cl> implot Resp)B
+360 11110(The next step is to check our sky flats to see if there is any slit function.)B
+360 10950(We want to remove any slope that may appear perpendicular to the dispersion.)B
+360 10790(So we need to combine our sky flats and then divide that result by our response)B
+360 10630(function.  If there is any slope we can remove this by running the task)B
+360 10470(illumination and creating an illumination function.)B
+1284 10150(cl> lpar combine)B
+1284 9990(cl> combine sp0011,sp0012,sp0013 Sky reject=crreject \\)B
+1620 9830(scale=mode weight=exptime rdnoise=rdnoise gain=gain)B
+1284 9670(cl> implot Sky)B
+1284 9510(cl> unlearn imarith)B
+1284 9350(cl> imarith Sky / Resp SkyFlat)B
+1284 9190(cl> display SkyFlat 1 fill+)B
+1284 9030(cl> implot SkyFlat)B
+360 8710(There does appear to be a star in our SkyFlat, but even so, I do see a small)B
+360 8550(slope that perhaps we should attempt to remove.  The ILLUMINATION task allows)B
+360 8390(us to describe a function for the slit profile.  This is done by first)B
+360 8230(dividing the spectrum into bins along the wavelength direction;  these)B
+360 8070(bins are then summed perpendicular to the dispersion and fit with a function;)B
+360 7910(these functions are then normalized and expanded to full frame.  When this)B
+360 7750(illumination function is divided into our data it should flatten the sky)B
+360 7590(perpendicular to the dispersion.  The ILLUMINATION task first let's us mark)B
+360 7430(our bins and then we drop into the ICFIT routine to do the individual fits)B
+360 7270(to each bin.)B
+1284 6950(cl> phelp illumination)B
+1284 6790(cl> unlearn illumination)B
+1284 6630(cl> lpar illum)B
+1284 6470(cl> illum SkyFlat Illum)B
+1284 6150([the default 5 bins is probably ok - type "q" to continue])B
+1284 5830([now we need to fit the first bin - notice the star - we can)B
+1284 5670(eliminate the star from the fit by twiddling parameters])B
+1620 5350(?                       # display cursor options)B
+1620 5190(:function cheby)B
+1620 5030(:order 2                # straight line)B
+1620 4870(:high 1                 # set sigma rejection to 2)B
+1620 4710(:grow 2                 # radius of pixel rejection)B
+1620 4550(:niterate 2             # iterate the solution)B
+1620 4390(f                       # fit new parameters)B
+9180 14470(q                       # accept and go to next bin)B
+8844 14150([continue for all bins])B
+8844 13830(cl> implot Illum)B
+8844 13670(cl> imarith SkyFlat / Illum test   # does Illum work ?)B
+8844 13510(cl> implot test                    # look at various lines)B
+7920 13190(We will assume that our Illum frame is ok.  Since our sample stars are)B
+7920 13030(bright with little sky background we can not confirm this assumption)B
+7920 12870(very well - checking this function on an object with lots of sky counts)B
+7920 12710(would be preferable.)B
+7920 12390(Now we have a response and an illumination function.  Both will need to)B
+7920 12230(be divided into our object and comp frames.  We can save some steps by)B
+7920 12070(first multiplying these functions together and then running CCDPROC doing just)B
+7920 11910(the "flatcor" correction.)B
+8844 11590(cl> imarith Resp * Illum SuperFlat)B
+8844 11430(cl> implot SuperFlat)B
+9180 11270(:l 200 300)B
+9180 11110(:i Resp)B
+9180 10950(o)B
+9180 10790(:l 200 300              # compare Resp with SuperFlat)B
+8844 10630(cl> epar ccdproc)B
+8844 10310([set "flatcor=yes" and  "flat=SuperFlat" - it should not be)B
+8928 10150(necessary to modify anything else])B
+8844 9830(cl> ccdproc @plist)B
+8844 9670(cl> imhead sp0020 l+        # notice record of reduction steps)B
+7920 9350(We have now completed the preliminary reductions on our spectral data, and)B
+7920 9190(it is ready for further processing.  Exercise 5. continues with extraction)B
+7920 9030(and wavelength calibration steps.  If diskspace is needed, all images)B
+7920 8870(in this directory can now be deleted EXCEPT for sp0018-27 - these are)B
+7920 8710(the objects and comps that you may use later.)B
+8844 8390(cl> imdel *.imh ver+)B
+7920 7910(-------------------------------------------------------------------------------)B
+10608 7590(References)B
+7920 7270(Type "help ccdred" to see a list of the tasks in this package.  Each task)B
+7920 7110(has an online help page.  Also see the list of "Additional Help Topics".)B
+7920 6790(There is online help for both RESPONSE and ILLUMINATION.)B
+7920 6470(A User's Guide to CCD Reductions with IRAF, by Phil Massey, June 1992.)B
+7920 6150(A User's Guide to Reducing Slit Spectra with IRAF, by Phil Massey, Frank)B
+7920 5990(Valdes, Jeannette Barnes, April 1992.)B
+7920 5670(------------------------------end of exercise-----------------------------------)B
+EndPage
+%%Trailer
+EndEnscriptDoc
+EnscriptJob restore

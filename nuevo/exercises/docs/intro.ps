@@ -1,0 +1,392 @@
+%!PS-Adobe-1.0
+%%Creator: pegasus:jbarnes (Jeannette Barnes)
+%%Title: intro
+%%CreationDate: Sat Sep 18 14:39:52 1993
+%%DocumentFonts: Courier-Bold Courier Times-Roman Times-Bold Helvetica-Bold
+% Start of enscript.pro -- prolog for text file translator
+% Copyright (c) 1984,1985,1987 Adobe Systems Incorporated. All Rights Reserved. 
+% GOVERNMENT END USERS: See Notice file in TranScript library directory
+% -- probably /usr/lib/ps/Notice
+% RCSID: $Header: enscript.pro,v 2.2 87/11/17 16:39:56 byron Rel $
+save/EnscriptJob exch def
+/StartEnscriptDoc{$enscript begin}def
+/$enscript 50 dict def $enscript begin
+/EndEnscriptDoc{end}def
+/S/show load def
+/X{exch 0 rmoveto S}def
+/Y{exch 0 exch rmoveto S}def
+/B{3 1 roll moveto S}def
+/F{$fd exch get setfont}def
+/StartPage{/svpg save def .05 dup scale}def
+/EndPage{svpg restore showpage}def
+/DoPreFeed{/statusdict where{pop
+ statusdict/prefeed known{statusdict exch/prefeed exch put 0}if}if pop}def
+/Landscape{90 rotate 0 -15840 translate}def
+/SetUpFonts
+ {dup/$fd exch array def{findfont exch scalefont $fd 3 1 roll put}repeat}def
+/InitGaudy{/TwoColumn exch def /BarLength exch def
+ /ftD /Times-Bold findfont 12 UP scalefont def
+ /ftF /Times-Roman findfont 14 UP scalefont def
+ /ftP /Helvetica-Bold findfont 30 UP scalefont def}def
+/U{1440 mul}def
+/UP{U 72 div}def
+/LB{/pts exch UP def /charcolor exch def /boxcolor exch def /font exch def
+ /label exch def /dy exch def /dx exch def /lly exch def /llx exch def
+ gsave boxcolor setgray
+ llx lly moveto dx 0 rlineto 0 dy rlineto dx neg 0 rlineto closepath fill
+ /lines label length def
+ /yp lly dy add dy lines pts mul sub 2 div sub pts .85 mul sub def
+ font setfont charcolor setgray
+ label {dup stringwidth pop 2 div llx dx 2 div add exch sub yp moveto show
+   /yp yp pts sub def}forall grestore}def
+/Gaudy{/Page exch def /Date exch def /File exch def /Comment exch def
+ .25 U 10.2 U BarLength .1 sub U .25 U [File] ftF .97 0 14 LB
+ .25 U 10.45 U BarLength .1 sub U .25 U [Comment] ftF 1 0 14 LB
+ .25 U 10.2 U 1 U .5 U Date ftD .7 0 12 LB
+ BarLength .75 sub U 10.2 U 1 U .5 U [Page] ftP .7 1 30 LB
+ TwoColumn{BarLength 2 div .19 add U 10.2 U moveto 0 -10 U rlineto stroke}if
+}def
+end
+StartEnscriptDoc % end fixed prolog
+1 200 /Courier-Bold
+0 140 /Courier
+2 SetUpFonts
+10.55 true InitGaudy
+%%EndProlog
+%%Page: ? 1
+StartPage
+Landscape
+()(intro)[(93/09/17)(11:02:43)](1)Gaudy
+0 F
+2628 14310(IRAF TUTORIAL SESSIONS)B
+3132 13990(Exercise 1.)B
+360 13510(This is a short exercise that should help acquaint you with the basics of IRAF. )B
+360 13350(We will assume that you have both an xterm and an SAOimage window open on)B
+360 13190(your monitor.  In the xterm window, log into IRAF.  There are a few images)B
+360 13030(in the intro directory that we will use, so go there.  In this, as in the)B
+360 12870(other exercises, the commands after the prompt \(either % or cl>\) are meant to)B
+360 12710(be typed by the user; the #-sign indicates a comment.)B
+1200 12390(% cl                 # be sure you are in your IRAF login directory)B
+1032 12230(cl> cd exercises/intro # we assume here that the exercise directory is)B
+3132 12070(a subdirectory of your IRAF login directory)B
+360 11750(We need to be sure that your correct terminal type is known to IRAF.  This)B
+360 11590(can easily be checked and reset.)B
+1032 11270(cl> stty                    # show the current terminal type)B
+1032 11110(cl> stty xtermjh nlines=40  # set the terminal to xterm with 40 lines)B
+3384 10950([the number of lines may be different for)B
+3468 10790(your window])B
+360 10470(Before proceeding further we need to unpack the images that will be used during)B
+360 10310(this exercise.  This can be done using the RFITS task.)B
+1032 9990(cl> unlearn rfits)B
+1032 9830(cl> rfits fintro* "" junk old+)B
+360 9510(The next step is to familiarize yourself a bit with some of the basic)B
+360 9350(operations of IRAF.  )B
+1032 9030(cl> diskspace         # show the available diskspace )B
+1032 8870(cl> path              # show the current working directory)B
+1032 8710(cl> show imdir        # show where pixel files \(.pix\) will go when  )B
+3048 8550(new images are created)B
+1032 8390(cl> dir               # list the files in your current directory)B
+1032 8230(cl> dir *.imh         # list just the image files in your directory)B
+1032 8070(cl> dir uparm         # list the files in the uparm directory)B
+1032 7910(cl> dir l+            # do a long directory listing)B
+1032 7750(cl> package           # show what packages are currently loaded)B
+1032 7590(cl> help images       # help for the package "images")B
+1032 7430(cl> phelp imheader    # help for task "imheader" - is the proper)B
+3048 7270(package loaded for its execution?)B
+1368 7110(q                 # quit the help for this task)B
+1032 6950(cl> lpar imh          # did I goof?)B
+1032 6790(cl> lpar imhead       # note query and hidden parameters)B
+1032 6630(cl> unlearn imhead    # unlearn parameters)B
+1032 6470(cl> imhead im010      # short header listing - what does it tell you?)B
+1032 6310(cl> imhead            # let the task query you for the image name)B
+1368 6150(im010)B
+1032 5990(cl> imhead im010 l+ )B
+1032 5830(cl> ^ | page          # what did we just do?)B
+1032 5670(cl> lpar imhead)B
+1032 5510(cl> imhead im010 l+ u-)B
+-160(# note the pointer to the pixel file)Y
+1032 5190(cl> epar imhead       # modify the task so it always types the long)B
+3048 5030(header listing)B
+1368 4870(:q                # exit eparam mode and "save" the new parameters)B
+3048 4710([exiting with crtl-C does NOT update the )B
+3048 4550(parameter file})B
+1032 4390(cl> lpar imhead       # were the edited parameters saved?)B
+8592 14470(cl> imhead im011 | page)B
+8592 14310(cl> dir uparm         # what is the uparm directory used for?  Can you)B
+10608 14150(find the parameter file for "imheader"?)B
+8592 13990(cl> unlearn imhead    # go back to the default parameter setting)B
+8592 13830(cl> dir uparm         # what just happened?)B
+8592 13670(cl> imhead im010 l+ | page )B
+10440 13510(# note the keyword "exptime")B
+8592 13350(cl> unlearn hselect)B
+8592 13190(cl> lpar hselect )B
+8592 13030(cl> hselect im*.imh $I,exptime yes)B
+10440 12870(# see the help for hselect - it allows us)B
+10608 12710(to look at selected keywords from image)B
+10608 12550(headers)B
+8592 12390(cl> unlearn hedit)B
+8592 12230(cl> lpar hedit)B
+8592 12070(cl> hedit im*.imh notice "test data" add+)B
+10440 11910(# add a keyword plus value to the headers)B
+8592 11750(cl> imhead im010 l+   # do you see the new keyword?)B
+8592 11590(cl> hselect im*.imh $I,notice yes)B
+7920 11270(What have you learned about parameters?  What is the difference between)B
+7920 11110(query and hidden parameters?   What is the uparm directory?  Do you )B
+7920 10950(understand the different syntaxes that we have been using in task executions?)B
+7920 10630(There are 2 images in your directory, im010 and im011, of the same)B
+7920 10470(field, but one frame has been slightly shifted from the other.  We want)B
+7920 10310(to shift the second frame so it aligns with the first frame, and then)B
+7920 10150(average these two frames together.)B
+8592 9830(cl> dir im*.imh       # note the two frames)B
+8592 9670(cl> imhead im*.imh    # check to see if they are the same field)B
+8592 9510(cl> unlearn display   )B
+8592 9350(cl> lpar display      # look at the parameters for the display task)B
+8592 9190(cl> display im010 1   # load the first image into the image display)B
+7920 8870(Let us diverge for a moment.  This is probably a good time to acquaint)B
+7920 8710(yourself with SAOimage, if you have not used it before.  You should know)B
+7920 8550(how to zoom, pan, window, and blink.  All options are done with the mouse.)B
+7920 8390(Notice the three subwindows at the top of the display - the first window tells)B
+7920 8230(us the image name and displays \(in real time\) the approximate pixel value)B
+7920 8070(under the cursor, the middle window is a pan window that shows us what part of)B
+7920 7910(the image we are looking at in the main window, and the left window is)B
+7920 7750(a zoom window that always shows us a zoomed portion of the main window)B
+7920 7590(under the cursor.)B
+7920 7270(Click on the "Pan" window, and familiarize yourself with the options in)B
+7920 7110(this menu that are presented to you on the second panel.  End with clicking)B
+7920 6950(on "zoom 1" and then "center".)B
+7920 6630(Click on "Color"; with the mouse in the main window hold down the left mouse)B
+7920 6470(button and then move it left-right, up-down.  Notice what happens to the image.)B
+7920 6310(When you have played with these options, trying the various submenus as well,)B
+7920 6150(go back to the original defaults and click on "invert".  Adjust the)B
+7920 5990(contract and brightness until you have a pleasant appearing star field.)B
+7920 5670(We want to blink this field and that of im011.  SAOimage only has one)B
+7920 5510(frame buffer, ie you can really only work with one image at a time.  But)B
+7920 5350(you can load up to 3 images into blink buffers.  This is done with the)B
+7920 5190(mouse.  Click on "Scale"; then click on "blink" with the left mouse button.)B
+7920 5030(Now display the other image.)B
+8592 4710(cl> display im011 1)B
+7920 4390(Click on "blink" with the middle mouse button.  Both frames are now stored)B
+EndPage
+%%Page: ? 2
+StartPage
+Landscape
+()(intro)[(93/09/17)(11:02:43)](2)Gaudy
+0 F
+360 14470(in the blink buffers.  To go to the different buffers just click on the)B
+360 14310(different buttons.  For instance, HOLD down the left mouse button.  Then)B
+360 14150(click quickly on the middle mouse button.  You should be able to see a )B
+360 13990(slight shift between the two images as you blink them.)B
+360 13670(Now back to our original problem of computing and correcting for these shifts.)B
+1032 13350(cl> display im010 1   # redisplay im010)B
+1032 13190(cl> unlearn imexamine)B
+1032 13030(cl> lpar imexamine    # we want to compute the shifts using this)B
+3048 12870(task interactively)B
+1032 12710(cl> imex              # move the cursor into the SAOimage window -)B
+3048 12550(notice that it has changed to a small cross -)B
+3048 12390(imexamine has put us into "interactive)B
+3048 12230(image cursor mode" )B
+1032 11910(a. put the cursor on some stars and press the "a" key - information)B
+1284 11750(will be printed in the xterm window: x-coord y-coord mag flux)B
+1284 11590([mean background] [# of pixels] FWHM e pa [gaussian peak])B
+1284 11430([gaussian FWHM] - see the help page for details)B
+1032 11110(c. type "?" to see the cursor help  - exit cursor help with "q" in the)B
+1284 10950(xterm window )B
+1032 10630(d. what we would like to do is select 3 relatively bright stars)B
+1284 10470(and measure their positions in both frames and then compute)B
+1284 10310(the differences - we will use the average of the differences to)B
+1284 10150(shift the second frame so it aligns with the first)B
+1284 9830(mark 3 stars with the "a" key - space them over the image)B
+1032 9510(e. with the cursor in the image window, type "d" - you will be queried)B
+1284 9350(in the xterm window for the next image - enter "im011" and frame "1")B
+1284 9030(measure the same three stars in this image )B
+1032 8710(e. quit "imexamine" with "q" in the SAOimage window )B
+360 8230(Compute the average shift, ie what shift do we want to apply to the)B
+360 8070(second image so that it aligns with the first?  The shifts that I computed)B
+360 7910(are -0.53 and -1.68 - do you agree?)B
+1032 7590(cl> lpar help)B
+1032 7430(cl> help imshift sec=description  # look at just one part of the)B
+4056 7270(help page for the task that)B
+4056 7110(we want to use)B
+1032 6950(cl> help imshift sec=example)B
+1032 6790(cl> unlearn imshift)B
+1032 6630(cl> lpar imshift)B
+1032 6470(cl> imshift im011 s011 ??? ???    # shift im011 with the )B
+4056 6310(appropriate values)B
+360 5990(Now, blink im010 and s011 and see if we did a good job.  Do you remember)B
+360 5830(how to do this?  Congratulate yourself if things look ok!!)B
+360 5510(Let's try a little image arithmetic now. We have two frames, im010)B
+360 5350(and s011, that we want to average.  Let's do it two ways.)B
+1032 5030(cl> unlearn imsum imarith)B
+696 4710(a.  cl> lpar imsum)B
+1032 4550(cl> imsum im010,s011 aver1 pixt=r calct=r option=average v+)B
+1368 4390(<or try "epar imsum", modify all of the parameters, and then)B
+9012 14470(type ":go" >)B
+8256 14150([Note the concern here about the pixel type, both for the calculation)B
+8256 13990(and for the output image.])B
+8256 13670(b.  cl> lpar imarith)B
+8592 13510(cl> imarith im010 + s011 aver2 pixt=r calct=r v+)B
+8928 13350(<try "epar imarith", edit all parameters, type ":go">)B
+8592 13190(cl> imarith aver2 / 2 aver2       # notice we are overwriting the)B
+11616 13030(input image)B
+8256 12710(c. [Hopefully the results are the same for both operations.])B
+8592 12390(cl> unlearn imstatistics)B
+8592 12230(cl> lpar imstat)B
+8592 12070(cl> imstat aver*.imh)B
+7920 11750(Notice that when you change hidden parameters on the command line that they)B
+7920 11590(are NOT "learn"ed!  How do you "learn" parameters?)B
+7920 11270(IRAF can redirect terminal output to a file, as well as pipe output from)B
+7920 11110(one task into the input of another task.  There is also a history and recall)B
+7920 10950(mechanism.)B
+8592 10630(cl> history              # prints history tree)B
+8592 10470(cl> ^                    # recall and execute last command, can also)B
+10860 10310(include number to execute any task in tree)B
+8592 10150(cl> e lpar               # recall last lpar command - allows you to edit)B
+10860 9990(command line before executing with "return" -)B
+10860 9830(use the arrow keys to move cursor, delete)B
+10860 9670(or insert to the left of the cursor)B
+8592 9510(cl> e                    # recall last command - use up/down arrows to)B
+10860 9350(to go up/down history tree)B
+8592 9190(cl> history 100          # look at last 100 commands)B
+8592 9030(cl> history 100 > hfile  # redirect output to a file)B
+8592 8870(cl> page hfile           # page the file)B
+8592 8710(cl> history 100 | page   # alternate method avoiding intermediate)B
+10860 8550(file)B
+7920 8230(What is the difference between ">" and "|" ?)B
+7920 7910(Let's explore plotting in IRAF a bit.  Some plot tasks are interactive and)B
+7920 7750(others are not.  You can always replot whatever was in the last plot buffer)B
+7920 7590(and play with it.)B
+8592 7270(cl> help plot            # list help for "plot" package)B
+8592 7110(cl> contour s011         # make a contour plot of your shifted)B
+10860 6950(image - if it is not already the frame)B
+10860 6790(that you are looking at in the SAOimage)B
+10860 6630(window, re-display it.  Compare the plot)B
+10860 6470(with the displayed image)B
+8592 6150(cl> =gcur                 # recall last plot and look at it )B
+10944 5990(interactively - we are now in "interactive)B
+10944 5830(graphics cursor mode" - the cursor must)B
+10944 5670(be in the plot window to accept commands)B
+8928 5510(:.help                # these cursor options are available to)B
+10944 5350(you in ALL plotting tasks in IRAF - they)B
+10944 5190(are global cursor commands - quit the)B
+10944 5030(help with a "q" in the text window)B
+8928 4710(Z - place the cursor on a bright contour and type "Z"   )B
+8928 4390(A - put axis on zoomed plot)B
+EndPage
+%%Page: ? 3
+StartPage
+Landscape
+()(intro)[(93/09/17)(11:02:43)](3)Gaudy
+0 F
+1368 14310(C - place the cursor on a feature and print out the current )B
+1704 14150(cursor positions)B
+1368 13830(0 - get full plot back)B
+1368 13510(hitting any key other than the caps will exit)B
+1032 13190(cl> surface s011          # draw a surface plot of the same image)B
+1032 13030(cl> surface s011 >G meta  # save plot in a file)B
+1032 12710(cl> implot s011           # this is an interactive plotting task that is)B
+3384 12550(useful for inspecting 2-d images - type "?")B
+3384 12390(- note the cursor commands \(small letters )B
+3384 12230(and : commands\) - these will differ from )B
+3384 12070(task to task \(if they are interactive\) - )B
+3384 11910(they are NOT global)B
+1368 11590(c - column plot, column read from cursor position)B
+1368 11270(:l 100  - plot line 100)B
+1368 10950(:c 150 200  - plot average of columns 150-200)B
+1368 10790(:.write meta          # save plot in file)B
+1368 10470(< spend some time becoming familiar with "implot" - you)B
+1536 10310(will use it often - try the global keys as well>)B
+1368 9990(how can you expand the plot other than with "Z"?)B
+1368 9670(q                     # exit)B
+1032 9350(cl> implot dev$wpix       # plot the image that is distributed with)B
+3384 9190(the IRAF system)B
+1368 8870(:w world              # this image has RA and DEC information)B
+3384 8710(stored in its header)B
+1368 8390(:f %H                 # convert to hh:mm:ss)B
+1368 8230(:.write meta)B
+1368 8070(c                     # place the cursor on the middle of the)B
+3384 7910(galaxy and type "c" to get a column plot)B
+1368 7750(:f %h                 # conver to dd:mm:ss)B
+1368 7590(:.write meta)B
+1368 7430(q                     # exit)B
+360 7110(We have saved several plots in a file called meta.  Let's look at those)B
+360 6950(plots now.)B
+1032 6630(cl> unlearn gkimosaic gkidir)B
+1032 6470(cl> gkidir meta           # list plot file)B
+1032 6310(cl> lpar gkimosaic)B
+1032 6150(cl> gkimos meta           # plot the meta file)B
+1368 5990(q                     # to quit plot mode)B
+1032 5830(cl> gkimos dev$vdm.gki    # plot the distributed metacode file)B
+1368 5670(<space bar>           # to continue to next set of plots)B
+1368 5510(q                     # to quit plot mode)B
+360 5190(For the next few minutes it may be profitable to spend a bit more time)B
+360 5030(familiarizing yourself with the task IMEXAMINE, since it is such a powerful)B
+360 4870(tool.)B
+1032 4550(cl> display dev$pix 1          # this is the IRAF distributed)B
+3804 4390(image, M51.  Wpix and pix are)B
+11364 14470(the same image but wpix has the)B
+11364 14310(world coordinate information)B
+11364 14150(in its header )B
+8592 13830([window the image until it looks good] )B
+8592 13510(cl> imexamine)B
+8592 13190([put the cursor on the star at 224, 131])B
+8928 13030(?                          # list cursor options - type "q" in)B
+11364 12870(the text window)B
+8928 12710(z                          # print out pixel values around)B
+11364 12550(cursor)B
+8928 12390(m                          # print statistics within box)B
+8592 12070([move the cursor to a glob on a spiral arm)B
+8928 11910(s                          # surface plot)B
+8928 11750(:epar                      # edit the parameters for the last)B
+11364 11590(plot - there is a lot of overlap)B
+11364 11430(with other cursor keys - you may)B
+11364 11270(need to type the "par" in the )B
+11364 11110(text window - notice the plot)B
+11364 10950(change with you type ":q" to exit)B
+11364 10790("epar")B
+8928 10470(l                          # plot a line)B
+8928 10310(g                          # go to "interactive graphics)B
+11364 10150(cursor mode" - the global cursor)B
+11364 9990(keys can now be used to fuss)B
+11364 9830(with the graphics plot)B
+8928 9670(:naverage 10               # average 10 lines)B
+8928 9510(i                          # go back to "interactive image)B
+11364 9350(cursor mode")B
+8928 9030([try other options])B
+8928 8870(q                          # quit the task - you can quit)B
+11364 8710(in either interactive mode)B
+7920 8390(One last thing:  a pretty picture.  Let's overlay a grid in the SAOimage)B
+7920 8230(window on the image dev$wpix.)B
+8592 7910(cl> display dev$wpix 1 xmag=0.8 ymag=0.8)B
+8592 7750(cl> wcslab dev$wpix 1          # invert the image to black)B
+11364 7590(background and window - if nothing)B
+11364 7430(happens when the prompt returns type)B
+11364 7270("gflush")B
+7920 6950(What did the xmag and ymag parameters do?)B
+7920 6630(If you are finished with this exercise you may want to clean your directory)B
+7920 6470(up a bit with the deletion commands.)B
+8592 6150(cl> dir)B
+8592 5990(cl> delete hfile,meta          # deletes ordinary files)B
+8592 5830(cl> imdelete *.imh ver+        # deletes image files - you may)B
+11364 5670(want to keep im*.imh around)B
+11364 5510(but we will not be using them)B
+11364 5350(again)B
+7920 5030(Do you know why there is a special IMDELETE command for the IRAF image?)B
+8592 4710(cl> logout)B
+7920 4390(You should always log out of IRAF first before shutting down the window)B
+EndPage
+%%Page: ? 4
+StartPage
+Landscape
+()(intro)[(93/09/17)(11:02:43)](4)Gaudy
+0 F
+360 14470(environment with the mouse.  Then log off the UNIX system, if you wish.)B
+1200 14150(% logout)B
+360 13670(--------------------------------------------------------------------------------)B
+3048 13350(References)B
+360 13030(A Beginner's Guide to Using IRAF, by Jeannette Barnes, August 1993.)B
+360 12710(User Manual for SAOimage, by M. VanHilst, January 1991.)B
+360 12390(------------------------------end of exercise-----------------------------------)B
+EndPage
+%%Trailer
+EndEnscriptDoc
+EnscriptJob restore

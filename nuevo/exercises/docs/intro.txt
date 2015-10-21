@@ -1,0 +1,398 @@
+                           
+                           IRAF TUTORIAL SESSIONS
+
+                                 Exercise 1.
+
+
+This is a short exercise that should help acquaint you with the basics of IRAF. 
+We will assume that you have both an xterm and an SAOimage window open on
+your monitor.  In the xterm window, log into IRAF.  There are a few images
+in the intro directory that we will use, so go there.  In this, as in the
+other exercises, the commands after the prompt (either % or cl>) are meant to
+be typed by the user; the #-sign indicates a comment.
+
+          % cl                 # be sure you are in your IRAF login directory
+        cl> cd exercises/intro # we assume here that the exercise directory is
+                                 a subdirectory of your IRAF login directory
+ 
+We need to be sure that your correct terminal type is known to IRAF.  This
+can easily be checked and reset.
+
+        cl> stty                    # show the current terminal type
+        cl> stty xtermjh nlines=40  # set the terminal to xterm with 40 lines
+                                    [the number of lines may be different for
+                                     your window]
+
+Before proceeding further we need to unpack the images that will be used during
+this exercise.  This can be done using the RFITS task.
+
+        cl> unlearn rfits
+        cl> rfits fintro* "" junk old+
+
+The next step is to familiarize yourself a bit with some of the basic
+operations of IRAF.  
+
+        cl> diskspace         # show the available diskspace 
+        cl> path              # show the current working directory
+        cl> show imdir        # show where pixel files (.pix) will go when  
+                                new images are created
+        cl> dir               # list the files in your current directory
+        cl> dir *.imh         # list just the image files in your directory
+        cl> dir uparm         # list the files in the uparm directory
+        cl> dir l+            # do a long directory listing
+        cl> package           # show what packages are currently loaded
+        cl> help images       # help for the package "images"
+        cl> phelp imheader    # help for task "imheader" - is the proper
+                                package loaded for its execution?
+            q                 # quit the help for this task
+        cl> lpar imh          # did I goof?
+        cl> lpar imhead       # note query and hidden parameters
+        cl> unlearn imhead    # unlearn parameters
+        cl> imhead im010      # short header listing - what does it tell you?
+        cl> imhead            # let the task query you for the image name
+            im010
+        cl> imhead im010 l+ 
+        cl> ^ | page          # what did we just do?
+        cl> lpar imhead
+        cl> imhead im010 l+ u-
+                              # note the pointer to the pixel file
+        cl> epar imhead       # modify the task so it always types the long
+                                header listing
+            :q                # exit eparam mode and "save" the new parameters
+                                [exiting with crtl-C does NOT update the 
+                                parameter file}
+        cl> lpar imhead       # were the edited parameters saved?
+        cl> imhead im011 | page
+        cl> dir uparm         # what is the uparm directory used for?  Can you
+                                find the parameter file for "imheader"?
+        cl> unlearn imhead    # go back to the default parameter setting
+        cl> dir uparm         # what just happened?
+        cl> imhead im010 l+ | page 
+                              # note the keyword "exptime"
+        cl> unlearn hselect
+        cl> lpar hselect 
+        cl> hselect im*.imh $I,exptime yes
+                              # see the help for hselect - it allows us
+                                to look at selected keywords from image
+                                headers
+        cl> unlearn hedit
+        cl> lpar hedit
+        cl> hedit im*.imh notice "test data" add+
+                              # add a keyword plus value to the headers
+        cl> imhead im010 l+   # do you see the new keyword?
+        cl> hselect im*.imh $I,notice yes
+
+What have you learned about parameters?  What is the difference between
+query and hidden parameters?   What is the uparm directory?  Do you 
+understand the different syntaxes that we have been using in task executions?
+
+There are 2 images in your directory, im010 and im011, of the same
+field, but one frame has been slightly shifted from the other.  We want
+to shift the second frame so it aligns with the first frame, and then
+average these two frames together.
+
+        cl> dir im*.imh       # note the two frames
+        cl> imhead im*.imh    # check to see if they are the same field
+        cl> unlearn display   
+        cl> lpar display      # look at the parameters for the display task
+        cl> display im010 1   # load the first image into the image display
+
+Let us diverge for a moment.  This is probably a good time to acquaint
+yourself with SAOimage, if you have not used it before.  You should know
+how to zoom, pan, window, and blink.  All options are done with the mouse.
+Notice the three subwindows at the top of the display - the first window tells
+us the image name and displays (in real time) the approximate pixel value
+under the cursor, the middle window is a pan window that shows us what part of
+the image we are looking at in the main window, and the left window is
+a zoom window that always shows us a zoomed portion of the main window
+under the cursor.
+
+Click on the "Pan" window, and familiarize yourself with the options in
+this menu that are presented to you on the second panel.  End with clicking
+on "zoom 1" and then "center".
+
+Click on "Color"; with the mouse in the main window hold down the left mouse
+button and then move it left-right, up-down.  Notice what happens to the image.
+When you have played with these options, trying the various submenus as well,
+go back to the original defaults and click on "invert".  Adjust the
+contract and brightness until you have a pleasant appearing star field.
+
+We want to blink this field and that of im011.  SAOimage only has one
+frame buffer, ie you can really only work with one image at a time.  But
+you can load up to 3 images into blink buffers.  This is done with the
+mouse.  Click on "Scale"; then click on "blink" with the left mouse button.
+Now display the other image.
+
+        cl> display im011 1
+
+Click on "blink" with the middle mouse button.  Both frames are now stored
+in the blink buffers.  To go to the different buffers just click on the
+different buttons.  For instance, HOLD down the left mouse button.  Then
+click quickly on the middle mouse button.  You should be able to see a 
+slight shift between the two images as you blink them.
+
+Now back to our original problem of computing and correcting for these shifts.
+
+        cl> display im010 1   # redisplay im010
+        cl> unlearn imexamine
+        cl> lpar imexamine    # we want to compute the shifts using this
+                                task interactively
+        cl> imex              # move the cursor into the SAOimage window -
+                                notice that it has changed to a small cross -
+                                imexamine has put us into "interactive
+                                image cursor mode" 
+
+        a. put the cursor on some stars and press the "a" key - information
+           will be printed in the xterm window: x-coord y-coord mag flux
+           [mean background] [# of pixels] FWHM e pa [gaussian peak]
+           [gaussian FWHM] - see the help page for details
+
+        c. type "?" to see the cursor help  - exit cursor help with "q" in the
+           xterm window 
+
+        d. what we would like to do is select 3 relatively bright stars
+           and measure their positions in both frames and then compute
+           the differences - we will use the average of the differences to
+           shift the second frame so it aligns with the first
+
+           mark 3 stars with the "a" key - space them over the image
+
+        e. with the cursor in the image window, type "d" - you will be queried
+           in the xterm window for the next image - enter "im011" and frame "1"
+
+           measure the same three stars in this image 
+
+        e. quit "imexamine" with "q" in the SAOimage window 
+
+
+Compute the average shift, ie what shift do we want to apply to the
+second image so that it aligns with the first?  The shifts that I computed
+are -0.53 and -1.68 - do you agree?
+
+        cl> lpar help
+        cl> help imshift sec=description  # look at just one part of the
+                                            help page for the task that
+                                            we want to use
+        cl> help imshift sec=example
+        cl> unlearn imshift
+        cl> lpar imshift
+        cl> imshift im011 s011 ??? ???    # shift im011 with the 
+                                            appropriate values
+
+Now, blink im010 and s011 and see if we did a good job.  Do you remember
+how to do this?  Congratulate yourself if things look ok!!
+
+Let's try a little image arithmetic now. We have two frames, im010
+and s011, that we want to average.  Let's do it two ways.
+
+        cl> unlearn imsum imarith
+
+    a.  cl> lpar imsum
+        cl> imsum im010,s011 aver1 pixt=r calct=r option=average v+
+            <or try "epar imsum", modify all of the parameters, and then
+             type ":go" >
+
+    [Note the concern here about the pixel type, both for the calculation
+    and for the output image.]
+
+    b.  cl> lpar imarith
+        cl> imarith im010 + s011 aver2 pixt=r calct=r v+
+            <try "epar imarith", edit all parameters, type ":go">
+        cl> imarith aver2 / 2 aver2       # notice we are overwriting the
+                                            input image
+
+    c. [Hopefully the results are the same for both operations.]
+
+        cl> unlearn imstatistics
+        cl> lpar imstat
+        cl> imstat aver*.imh
+
+Notice that when you change hidden parameters on the command line that they
+are NOT "learn"ed!  How do you "learn" parameters?
+
+IRAF can redirect terminal output to a file, as well as pipe output from
+one task into the input of another task.  There is also a history and recall
+mechanism.
+
+        cl> history              # prints history tree
+        cl> ^                    # recall and execute last command, can also
+                                   include number to execute any task in tree
+        cl> e lpar               # recall last lpar command - allows you to edit
+                                   command line before executing with "return" -
+                                   use the arrow keys to move cursor, delete
+                                   or insert to the left of the cursor
+        cl> e                    # recall last command - use up/down arrows to
+                                   to go up/down history tree
+        cl> history 100          # look at last 100 commands
+        cl> history 100 > hfile  # redirect output to a file
+        cl> page hfile           # page the file
+        cl> history 100 | page   # alternate method avoiding intermediate
+                                   file
+
+What is the difference between ">" and "|" ?
+
+Let's explore plotting in IRAF a bit.  Some plot tasks are interactive and
+others are not.  You can always replot whatever was in the last plot buffer
+and play with it.
+
+        cl> help plot            # list help for "plot" package
+        cl> contour s011         # make a contour plot of your shifted
+                                   image - if it is not already the frame
+                                   that you are looking at in the SAOimage
+                                   window, re-display it.  Compare the plot
+                                   with the displayed image
+
+        cl> =gcur                 # recall last plot and look at it 
+                                    interactively - we are now in "interactive
+                                    graphics cursor mode" - the cursor must
+                                    be in the plot window to accept commands
+            :.help                # these cursor options are available to
+                                    you in ALL plotting tasks in IRAF - they
+                                    are global cursor commands - quit the
+                                    help with a "q" in the text window
+
+            Z - place the cursor on a bright contour and type "Z"   
+
+            A - put axis on zoomed plot
+
+            C - place the cursor on a feature and print out the current 
+                cursor positions
+
+            0 - get full plot back
+
+            hitting any key other than the caps will exit
+
+        cl> surface s011          # draw a surface plot of the same image
+        cl> surface s011 >G meta  # save plot in a file
+
+        cl> implot s011           # this is an interactive plotting task that is
+                                    useful for inspecting 2-d images - type "?"
+                                    - note the cursor commands (small letters 
+                                    and : commands) - these will differ from 
+                                    task to task (if they are interactive) - 
+                                    they are NOT global
+
+            c - column plot, column read from cursor position
+
+            :l 100  - plot line 100
+
+            :c 150 200  - plot average of columns 150-200
+            :.write meta          # save plot in file
+
+            < spend some time becoming familiar with "implot" - you
+              will use it often - try the global keys as well>
+
+            how can you expand the plot other than with "Z"?
+
+            q                     # exit
+
+        cl> implot dev$wpix       # plot the image that is distributed with
+                                    the IRAF system
+
+            :w world              # this image has RA and DEC information
+                                    stored in its header
+
+            :f %H                 # convert to hh:mm:ss
+            :.write meta
+            c                     # place the cursor on the middle of the
+                                    galaxy and type "c" to get a column plot
+            :f %h                 # conver to dd:mm:ss
+            :.write meta
+            q                     # exit
+
+We have saved several plots in a file called meta.  Let's look at those
+plots now.
+
+        cl> unlearn gkimosaic gkidir
+        cl> gkidir meta           # list plot file
+        cl> lpar gkimosaic
+        cl> gkimos meta           # plot the meta file
+            q                     # to quit plot mode
+        cl> gkimos dev$vdm.gki    # plot the distributed metacode file
+            <space bar>           # to continue to next set of plots
+            q                     # to quit plot mode
+
+For the next few minutes it may be profitable to spend a bit more time
+familiarizing yourself with the task IMEXAMINE, since it is such a powerful
+tool.
+
+        cl> display dev$pix 1          # this is the IRAF distributed
+                                         image, M51.  Wpix and pix are
+                                         the same image but wpix has the
+                                         world coordinate information
+                                         in its header 
+
+        [window the image until it looks good] 
+
+        cl> imexamine
+
+        [put the cursor on the star at 224, 131]
+            ?                          # list cursor options - type "q" in
+                                         the text window
+            z                          # print out pixel values around
+                                         cursor
+            m                          # print statistics within box
+
+        [move the cursor to a glob on a spiral arm
+            s                          # surface plot
+            :epar                      # edit the parameters for the last
+                                         plot - there is a lot of overlap
+                                         with other cursor keys - you may
+                                         need to type the "par" in the 
+                                         text window - notice the plot
+                                         change with you type ":q" to exit
+                                         "epar"
+
+            l                          # plot a line
+            g                          # go to "interactive graphics
+                                         cursor mode" - the global cursor
+                                         keys can now be used to fuss
+                                         with the graphics plot
+            :naverage 10               # average 10 lines
+            i                          # go back to "interactive image
+                                         cursor mode"
+             
+            [try other options]
+            q                          # quit the task - you can quit
+                                         in either interactive mode
+                 
+One last thing:  a pretty picture.  Let's overlay a grid in the SAOimage
+window on the image dev$wpix.
+
+        cl> display dev$wpix 1 xmag=0.8 ymag=0.8
+        cl> wcslab dev$wpix 1          # invert the image to black
+                                         background and window - if nothing
+                                         happens when the prompt returns type
+                                         "gflush"
+
+What did the xmag and ymag parameters do?
+
+If you are finished with this exercise you may want to clean your directory
+up a bit with the deletion commands.
+
+        cl> dir
+        cl> delete hfile,meta          # deletes ordinary files
+        cl> imdelete *.imh ver+        # deletes image files - you may
+                                         want to keep im*.imh around
+                                         but we will not be using them
+                                         again
+
+Do you know why there is a special IMDELETE command for the IRAF image?
+
+        cl> logout
+
+You should always log out of IRAF first before shutting down the window
+environment with the mouse.  Then log off the UNIX system, if you wish.
+
+          % logout
+
+
+--------------------------------------------------------------------------------
+
+                                References
+
+A Beginner's Guide to Using IRAF, by Jeannette Barnes, August 1993.
+
+User Manual for SAOimage, by M. VanHilst, January 1991.
+
+------------------------------end of exercise-----------------------------------

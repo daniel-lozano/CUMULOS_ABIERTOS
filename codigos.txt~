@@ -21,11 +21,7 @@
 //unlearn //-------------------------------------//olvida los parametros ya existentes en la tarea//
 // dir    //----------------------------------------// mismo uso que "ls" pero organiza por extension //
 
-
 ---------------------EN_"implot"----------------------------------------------------------------
-
-
-
 
 //implot <imagen>//----------------------------------------//abre una imagen//
 //   spacebar    //----------------------------------------//da cuenta de la posicion [x,y] de un pixel
@@ -67,7 +63,90 @@ LOS SIGUIENTES COMANDOS ESTAN EN LOS PAQUETES DE NOAO, IMRED, BIAS (CCDRED)
 
 // hselect  <imagen> <parametro> //----------------------------//lee un parametro de los headers
 
-//   hedit <imagen> <parametro>   //----------------------------------------------//modifica los headers
+//   hedit <imagen> <parametro>   //---------------------------//modifica los headers
+
+// zerocombine <lista> //--------------------------------------// combina una lista de bias (debe tener info en el header)
+
+
+---------------Fotometria de apertura (paquetes "astutil","digiphot"&"apphot")-
+
+
+
+// setairmass <imagen> update-  //--------------------------//actualiza la masa de aire de una image
+
+// imexam    //-----------------------------------------// desplegado en el ds9 y da comandos de analisis
+
+// imexam r//------------------------------------------//muestra el perfil de cuentas 
+
+--------------------Fotometria de apertura usando DAOPHOT-----------------------
+
+paquetes para entrar: noao-digiphot-daophot
+
+// daoedit //---------------------------------//funciona con el ds9,  da informacion de FWHM, sky
+mean, sky sigma
+
+En este punto se deben editar las tareas FINDPARS y DATAPARS para continuar
+con las sigueintes tareas. Para esto la tarea DAOEDIT nos ha sido de ayuda
+para encontrar los valores requeridos en estas dos tareas. Algunos de los
+valores en estas tareas NO deben ser cambiados ya que cambiarian los datos
+significativamente, un ejemplo es el parametro SCALE para DATAPARS, que para
+efectos practicos (y dada la ciencia que se esta practicando) debe siempre ser
+igual a 1.
+
+la tarea DATAPARS necesita los siguientes valores:
+FWHM, Sky sigma, datamin (SKY-5*skySigma), readnoise, epadu, exposure time=
+EXPTIME, airmass= AIRMASS, filters=FILTERS, obstime= UTMIDDLE.
+
+Note que algunos de los parametros pueden ser leidos en los headers de las
+imagenes al poner las palabras claves de los headers en estos parametros.
+
+La tarea FINDPARS, por ahora, solo necesita recibir como parametros el
+THRESHOLD, este parametro es el numero de cuentas minimas para que el comando
+DAOFIND tome un punto de la imagen como un objeto. El threshold es el numero
+de "sky sigmas" que tomara la tarea DAOFIND.
+
+
+
+// daofind //--------------------------------//encuentra objetos en una imagen
+, crea un archivo <imagen>.coo
+// tvmark <imagen.coo> mar=cir rad=3//--------------//marca las estrellas en
+la pantalla 
+
+//txdumb >> imagen.coo| respuesta imagen.coo.1, xc,yc//----------crea una
+lista de todas las estrellas que son utiles paa daophot
+
+
+// phot <imagen> coords=<imagen>.coo.1//--------------//hace la fotometria de
+apertura
+
+
+A partir de eeste momento se utilizara la funcion PHOT, este comando crea una
+lista de magnitudes de las estrellas previamente halladas por la tarea
+daofind, o por otros medios. Para correr esta tarea es necesario modificar los
+parametros de la misma (agregando una imagen de entrada y una imagen
+relacionada con un archivo de coordenadas de este <imagen>.coo.1) como
+tambien los parametros de las tareas DATAPARS, CENTERPARS,  FITSKYPARS y
+PHOTPARS. Los parametros listados necesarios para cada tarea son los
+siguientes:
+
+DATAPARS:,FWHM, sky sigma, datamin, epadu, obstime, readnoise, filters,
+airmass, exptime.
+
+CENTERPARS: calgori (algoritmo que halla los centros), cbox (en general es
+recomendable dejar este parametro en el valor 5).
+
+FITSKYPARS: salgori (algoritmo que halla un valor del cielo), annulus (radio
+interior del anillo) y dannulus (ancho del anillo del cielo).
+
+PHOTPARS: aperture(este valor sera el radio de apertura para el cual se hara
+la fotometria de apertura, este valor es un numero entero que se multiplicara
+por el FWHM dado en DATAPARS, es importante notar que en este anillo debe caer
+la mayor cantidad de señal posible. Se recomienda que el valor de aperture se
+3, 4 o 5 veces el FWHM.
+
+Al ser modificados estos parametros el comando PHOT puede ser ejecutado. Este
+comando dara como resultado un archivo llamado <imagen>.mag.1 donde estaran
+las magnitudes calculadas por el programa.
 
 
 

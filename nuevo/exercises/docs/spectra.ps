@@ -1,0 +1,521 @@
+%!PS-Adobe-1.0
+%%Creator: pegasus:jbarnes (Jeannette Barnes)
+%%Title: spectra
+%%CreationDate: Sat Sep 18 14:41:50 1993
+%%DocumentFonts: Courier-Bold Courier Times-Roman Times-Bold Helvetica-Bold
+% Start of enscript.pro -- prolog for text file translator
+% Copyright (c) 1984,1985,1987 Adobe Systems Incorporated. All Rights Reserved. 
+% GOVERNMENT END USERS: See Notice file in TranScript library directory
+% -- probably /usr/lib/ps/Notice
+% RCSID: $Header: enscript.pro,v 2.2 87/11/17 16:39:56 byron Rel $
+save/EnscriptJob exch def
+/StartEnscriptDoc{$enscript begin}def
+/$enscript 50 dict def $enscript begin
+/EndEnscriptDoc{end}def
+/S/show load def
+/X{exch 0 rmoveto S}def
+/Y{exch 0 exch rmoveto S}def
+/B{3 1 roll moveto S}def
+/F{$fd exch get setfont}def
+/StartPage{/svpg save def .05 dup scale}def
+/EndPage{svpg restore showpage}def
+/DoPreFeed{/statusdict where{pop
+ statusdict/prefeed known{statusdict exch/prefeed exch put 0}if}if pop}def
+/Landscape{90 rotate 0 -15840 translate}def
+/SetUpFonts
+ {dup/$fd exch array def{findfont exch scalefont $fd 3 1 roll put}repeat}def
+/InitGaudy{/TwoColumn exch def /BarLength exch def
+ /ftD /Times-Bold findfont 12 UP scalefont def
+ /ftF /Times-Roman findfont 14 UP scalefont def
+ /ftP /Helvetica-Bold findfont 30 UP scalefont def}def
+/U{1440 mul}def
+/UP{U 72 div}def
+/LB{/pts exch UP def /charcolor exch def /boxcolor exch def /font exch def
+ /label exch def /dy exch def /dx exch def /lly exch def /llx exch def
+ gsave boxcolor setgray
+ llx lly moveto dx 0 rlineto 0 dy rlineto dx neg 0 rlineto closepath fill
+ /lines label length def
+ /yp lly dy add dy lines pts mul sub 2 div sub pts .85 mul sub def
+ font setfont charcolor setgray
+ label {dup stringwidth pop 2 div llx dx 2 div add exch sub yp moveto show
+   /yp yp pts sub def}forall grestore}def
+/Gaudy{/Page exch def /Date exch def /File exch def /Comment exch def
+ .25 U 10.2 U BarLength .1 sub U .25 U [File] ftF .97 0 14 LB
+ .25 U 10.45 U BarLength .1 sub U .25 U [Comment] ftF 1 0 14 LB
+ .25 U 10.2 U 1 U .5 U Date ftD .7 0 12 LB
+ BarLength .75 sub U 10.2 U 1 U .5 U [Page] ftP .7 1 30 LB
+ TwoColumn{BarLength 2 div .19 add U 10.2 U moveto 0 -10 U rlineto stroke}if
+}def
+end
+StartEnscriptDoc % end fixed prolog
+1 200 /Courier-Bold
+0 140 /Courier
+2 SetUpFonts
+10.55 true InitGaudy
+%%EndProlog
+%%Page: ? 1
+StartPage
+Landscape
+()(spectra)[(93/09/18)(14:35:40)](1)Gaudy
+0 F
+2544 14310(IRAF TUTORIAL SESSIONS)B
+3048 13990(Exercise 5.)B
+360 13510(In this exercise we will continue processing the spectroscopic data that)B
+360 13350(was processed through the preliminary reduction phase using CCDPROC )B
+360 13190(\(including the response and illumination corrections\) in Exercise 3.  This)B
+360 13030(exercise will lead you through the extraction of the spectra to 1-d, the)B
+360 12870(wavelength calibration of the arc spectra, and then finally applying this)B
+360 12710(information to our extracted stellar spectra.)B
+360 12390(We will assume that you are logged into IRAF in an xterm window, or a similar)B
+360 12230(graphics terminal emulator window.)B
+360 11910(Go to your IRAF home directory and then go to the subdirectory called spec)B
+360 11750(in the exercises directory.)B
+1200 11430(cl> cd)B
+1200 11270(cl> cd exercises/spec)B
+360 10950(The data that we will work with at this time are sp0018-sp0027.  Are the)B
+360 10790(data there?  Check to be sure the images have been reduced - do you remember)B
+360 10630(how to check that?)B
+1200 10310(cl> dir)B
+1200 10150(cl> imhead sp*.imh)B
+1200 9990(cl> imhead sp0018 l+        # what do you want to look for here?)B
+360 9670(These are the images that we will be working with.)B
+360 9350(cl> imhead sp*.imh)B
+360 9190(sp0018.imh[41,1022][real]: comp 6707 start of night)B
+360 9030(sp0020.imh[41,1022][real]: DHCep 6707)B
+360 8870(sp0021.imh[41,1022][real]: DHCep 6707)B
+360 8710(sp0022.imh[41,1022][real]: DHCep 6707)B
+360 8550(sp0023.imh[41,1022][real]: AHCep 6707)B
+360 8390(sp0024.imh[41,1022][real]: AHCep 6707)B
+360 8230(sp0025.imh[41,1022][real]: AHCep 6707)B
+360 8070(sp0027.imh[41,1022][real]: comp 6707)B
+360 7750(---------------)B
+360 7590(EXTRACTING THE DATA)B
+360 7270(The first thing we need to do is extract the data to 1-d spectra, both)B
+360 7110(the objects and the arcs.  If we wanted to leave the data as 2-d data)B
+360 6950(then the problem would be approached in a different way, using tasks in)B
+360 6790(the NOAO.TWODSPEC.LONGSLIT package.  Let's load the appropriate packages.)B
+1200 6470(cl> imred)B
+1200 6310(cl> kpnoslit)B
+360 5990(Our first task is determine the parameters for the task APALL, the task we)B
+360 5830(will use to do the extraction of the spectra.  We need to determine a)B
+360 5670(profile centering width that is the number of pixels used to determine the)B
+360 5510(center of the profile during the centering and tracing of the profile along)B
+360 5350(the dispersion direction; this is usually set to the FWFM of the profile.)B
+1200 5030(cl> implot sp0020          # measure the FWFM of the profile using)B
+3636 4870(the "C" key - place the cursor on one)B
+3636 4710(side of the profile at about the 50)B
+3636 4550(count level - press "C" - move the )B
+3636 4390(cursor to the other side - press "C")B
+11196 14470(again \(may need to press twice\) )B
+8760 14150([you may want to overplot some different lines as well to see how)B
+8844 13990(consistent the profile is and how much distortion there is in)B
+8844 13830(the spectrum])B
+9096 13510(o                      # overplot next plot)B
+9096 13350(:l 50                  # line 50)B
+9096 13190(o                      )B
+9096 13030(:l 1000)B
+9096 12710(c                      # place cursor on middle of profile and)B
+11196 12550(type "c" - this will plot the column)B
+11196 12390(defined by the cursor so you can see)B
+11196 12230(the spectrum of the star)B
+9096 11910(:i sp0025              # check another spectrum)B
+9096 11750(:l 511)B
+8760 11430([when you have decided on a good value of the profile radius quit)B
+8844 11270(implot with q])B
+9096 10950(q)B
+7920 10630(The next step is to edit the parameters for APALL until they resemble the)B
+7920 10470(parameter file below.  There are many ways to vary the extraction algorithms)B
+7920 10310(to get the best results for your data.  Our list of input images will be)B
+7920 10150(an @file containing a list of our stellar images only.  We will use many )B
+7920 9990(of the defaults except for a few:  let's turn off the extras parameter, set)B
+7920 9830(b_order=2 \(a straight line fit for the background subtraction rather than a)B
+7920 9670(constant\), set b_naver=-10 \(that way a median value will be determined for)B
+7920 9510(each of our background samples before they are fit with the straight line\), )B
+7920 9350(type Ctrl/N to go to the next page of the parameter list, set the width=6 \(at )B
+7920 9190(least that is what I decided from our runs with implot earlier\), set nfind=1 )B
+7920 9030(\(we only want to initially find 1 peak\), and set background=fit.)B
+8592 8710(cl> unlearn apall)B
+8592 8550(cl> epar apall                # set parameters)B
+8928 8390(:q                        # save the parameters)B
+7920 8070(cl> lpar apall | page)B
+8592 7910(input = "@extract"      List of input images)B
+8592 7750(nfind = 1               Number of apertures to be found automatically)B
+8424 7590(\(output = ""\)             List of output spectra)B
+8424 7430(\(format = "multispec"\)    Extracted spectra format)B
+8088 7270(\(references = ""\)             List of aperture reference images)B
+8256 7110(\(profiles = ""\)             List of aperture profile images\\n)B
+8004 6950(\(interactive = yes\)            Run task interactively?)B
+8592 6790(\(find = yes\)            Find apertures?)B
+8256 6630(\(recenter = yes\)            Recenter apertures?)B
+8424 6470(\(resize = yes\)            Resize apertures?)B
+8592 6310(\(edit = yes\)            Edit apertures?)B
+8508 6150(\(trace = yes\)            Trace apertures?)B
+8256 5990(\(fittrace = yes\)            Fit the traced points interactively?)B
+8340 5830(\(extract = yes\)            Extract spectra?)B
+8424 5670(\(extras = no\)             Extract sky, sigma, etc.?)B
+8424 5510(\(review = yes\)            Review extractions?\\n)B
+8592 5350(\(line = INDEF\)          Dispersion line)B
+8592 5190(\(nsum = 10\)             Number of dispersion lines to sum\\n\\n# DEFAULT )B
+8256 5030(\(dispaxis = 2\)              Dispersion axis \(1=along lines, 2=along columns)B
+8508 4870(\(lower = -5.\)            Lower aperture limit relative to center)B
+8508 4710(\(upper = 5.\)             Upper aperture limit relative to center)B
+8172 4550(\(apidtable = ""\)             Aperture ID table \(optional\)\\n\\n# DEFAULT BACKG)B
+8088 4390(\(b_function = "chebyshev"\)    Background function)B
+EndPage
+%%Page: ? 2
+StartPage
+Landscape
+()(spectra)[(93/09/18)(14:35:40)](2)Gaudy
+0 F
+780 14470(\(b_order = 2\)              Background function order)B
+696 14310(\(b_sample = "-10:-6,6:10"\)  Background sample regions)B
+528 14150(\(b_naverage = -10\)            Background average or median)B
+528 13990(\(b_niterate = 0\)              Background rejection iterations)B
+360 13830(\(b_low_reject = 3.\)             Background lower rejection sigma)B
+360 13670(\(b_high_rejec = 3.\)             Background upper rejection sigma)B
+864 13510(\(b_grow = 0.\)             Background rejection growing radius\\n\\n# APERTU)B
+948 13350(\(width = 6.\)             Profile centering width)B
+864 13190(\(radius = 10.\)            Profile centering radius)B
+612 13030(\(threshold = 0.\)             Detection threshold for profile centering\\n\\n# )B
+864 12870(\(minsep = 5.\)             Minimum separation between spectra)B
+864 12710(\(maxsep = 1000.\)          Maximum separation between spectra)B
+948 12550(\(order = "increasing"\)   Order of apertures\\n\\n# RECENTERING PARAMETERS\\n)B
+612 12390(\(apertures = ""\)             Select apertures)B
+864 12230(\(npeaks = INDEF\)          Select brightest peaks)B
+948 12070(\(shift = yes\)            Use average shift instead of recentering?\\n\\n#)B
+864 11910(\(llimit = INDEF\)          Lower aperture limit relative to center)B
+864 11750(\(ulimit = INDEF\)          Upper aperture limit relative to center)B
+864 11590(\(ylevel = 0.1\)            Fraction of peak or intensity for automatic wid)B
+1032 11430(\(peak = yes\)            Is ylevel a fraction of the peak?)B
+1116 11270(\(bkg = yes\)            Subtract background in automatic width?)B
+864 11110(\(r_grow = 0.\)             Grow limits by this factor)B
+612 10950(\(avglimits = no\)             Average limits over all apertures?\\n\\n# TRACING)B
+864 10790(\(t_nsum = 10\)             Number of dispersion lines to sum)B
+864 10630(\(t_step = 10\)             Tracing step)B
+780 10470(\(t_nlost = 3\)              Number of consecutive times profile is lost bef)B
+528 10310(\(t_function = "legendre"\)     Trace fitting function)B
+780 10150(\(t_order = 2\)              Trace fitting function order)B
+696 9990(\(t_sample = "*"\)            Trace sample regions)B
+528 9830(\(t_naverage = 1\)              Trace average or median)B
+528 9670(\(t_niterate = 0\)              Trace rejection iterations)B
+360 9510(\(t_low_reject = 3.\)             Trace lower rejection sigma)B
+360 9350(\(t_high_rejec = 3.\)             Trace upper rejection sigma)B
+864 9190(\(t_grow = 0.\)             Trace rejection growing radius\\n\\n# EXTRACTION )B
+528 9030(\(background = "fit"\)          Background to subtract)B
+864 8870(\(skybox = 1\)              Box car smoothing length for sky)B
+780 8710(\(weights = "none"\)         Extraction weights \(none|variance\))B
+1032 8550(\(pfit = "fit1d"\)        Profile fitting type \(fit1d|fit2d\))B
+948 8390(\(clean = no\)             Detect and replace bad pixels?)B
+528 8230(\(saturation = INDEF\)          Saturation level)B
+612 8070(\(readnoise = "0."\)           Read out noise sigma \(photons\))B
+1032 7910(\(gain = "1."\)           Photon gain \(photons/data number\))B
+864 7750(\(lsigma = 4.\)             Lower rejection threshold)B
+864 7590(\(usigma = 4.\)             Upper rejection threshold)B
+780 7430(\(nsubaps = 1\)              Number of subapertures per aperture)B
+1032 7270(\(mode = "ql"\)    )B
+360 6950(Let's make up our @file that we will use as input to APALL.)B
+1032 6630(cl> files sp002?.imh > extract)B
+1032 6470(cl> edit extract       # we only want sp0020-25 in the list)B
+1032 6310(cl> imhead @extract    # check the list)B
+360 5990(Now we are ready to extract our stellar spectra.)B
+1032 5670(cl> apall)B
+1032 5350([answer yes to all questions])B
+1032 5030([we are now presented with a profile plot for our first star - the)B
+1116 4870(center and the aperture have been marked])B
+1368 4550(?                  # for a list of cursor options)B
+1368 4390(b                  # go into background fitting mode)B
+8592 14310([the default backgrounds are marked but they are not very good - we)B
+8676 14150(should move then further away from the star])B
+8928 13830(?                  # for a list of cursor options in this mode)B
+8928 13670(t                  # initialize the background regions)B
+8928 13510(s                  # mark the left boundary of the first new)B
+10692 13350(background region)B
+8928 13190(s                  # mark the right boundary of the first new)B
+10692 13030(background region)B
+8928 12870(s                  # mark the left boundary of the second new)B
+10692 12710(background region)B
+8928 12550(s                  # mark the right boundary of the second new)B
+10692 12390(background region)B
+8928 12230(f                  # fit the new background)B
+8928 12070(:sample            # print out the sky regions being used)B
+8592 11750([you should now have one background sample region on either side)B
+8676 11590(of the profile of about 6 pixels or so each - notice the fit)B
+8676 11430(extended under the star - also notice the median points in each)B
+8676 11270(sample region - redo the procedure above if you are not happy with)B
+8676 11110(your sky background])B
+8928 10790(q                  # quit the background fitting routine)B
+8592 10470([once we have decided that the aperture size, the center and the)B
+8676 10310(background are ok, we can move onto the tracing routine.  The next)B
+8676 10150(step is to trace the profile of the star along the dispersion axis.)B
+8676 9990(We are again in the ICFIT routine \(remember the RESPONSE and )B
+8676 9830(ILLUMINATION tasks?])B
+8928 9510(q)B
+8592 9190([answer yes to all questions - you will now be presented with a plot)B
+8676 9030(of the profile centers versus the line number.  Notice the fitting)B
+8676 8870(parameters at the top of the plot.  We can adjust the fit if you)B
+8676 8710(would like, although the current fit looks quite good.])B
+8928 8390(:func spline3)B
+8928 8230(:order 3)B
+8928 8070(:niter 1)B
+8928 7910(f)B
+8928 7590(q                  # quit tracing mode and move onto extraction)B
+8592 7270([answer yes to all questions - now you will see a plot of the )B
+8676 7110(extracted spectrum - notice the cosmic rays - another option)B
+8676 6950(during the extraction process is to clean the spectrum but we)B
+8676 6790(did not choose that option])B
+8928 6470(q                  # go to next spectrum)B
+8592 6150([we will now step through the remaining stars - each will be processed)B
+8676 5990(in a similar manner - note the previous background regions have not)B
+8676 5830(been remembered so you will need to set these for each star - the)B
+8676 5670(previous fitting parameters for the tracing are remembered however])B
+7920 5350(Our stellar spectra have now been extracted to 1-d images.  The headers)B
+7920 5190(have been updated with a more complex set of header keywords as well.  And)B
+7920 5030(all of the extraction information has been saved in individual files in)B
+7920 4870(a database directory.)B
+8592 4390(cl> imhead *.ms*                # list the new extracted spectra)B
+EndPage
+%%Page: ? 3
+StartPage
+Landscape
+()(spectra)[(93/09/18)(14:35:40)](3)Gaudy
+0 F
+1032 14470(cl> imhead sp0025.ms l+ | page  # see the long header  )B
+1032 14310(cl> dir database)B
+1032 14150(cl> page database/apsp0021)B
+360 13830(Now we need to extract the two arc spectra to 1-d.  But this process is done)B
+360 13670(differently than for the star.  We can not trace the arcs since there is no)B
+360 13510(continuum, and we need to be sure we do not do any background subtraction or)B
+360 13350(we will end up with nothing in our output spectrum.  Why?  So we will use)B
+360 13190(a "reference" image to extract the arcs.  In other words, we will use one)B
+360 13030(of the database files created earlier when we extracted our stars.  To simplify)B
+360 12870(things we will use one reference star to extract both arcs.  But users)B
+360 12710(may want to be more particular about this procedure if they are doing radial)B
+360 12550(velocity work - you may want to then extract each arc using the reference)B
+360 12390(for each star.  As in APALL, there are many options. )B
+360 12070(Let's use the task APSUM to extract the arc spectra; we could have just as)B
+360 11910(easily edited the parameters for APALL but I do not want to disturb your)B
+360 11750(parameters in that task.  So edit the parameters for APSUM until they resemble)B
+360 11590(those below.)B
+1032 11270(cl> unlearn apsum)B
+1032 11110(cl> epar apsum)B
+360 10790(cl> lpar apsum)B
+1032 10630(input = "sp0018,sp0027" List of input images)B
+864 10470(\(output = ""\)             List of output spectra)B
+864 10310(\(format = "multispec"\)    Extracted spectra format)B
+528 10150(\(references = "sp0025"\)       List of aperture reference images)B
+696 9990(\(profiles = ""\)             List of aperture profile images\\n)B
+444 9830(\(interactive = no\)             Run task interactively?)B
+1032 9670(\(find = no\)             Find apertures?)B
+696 9510(\(recenter = no\)             Recenter apertures?)B
+864 9350(\(resize = no\)             Resize apertures?)B
+1032 9190(\(edit = no\)             Edit apertures?)B
+948 9030(\(trace = no\)             Trace apertures?)B
+696 8870(\(fittrace = no\)             Fit the traced points interactively?)B
+780 8710(\(extract = yes\)            Extract apertures?)B
+864 8550(\(extras = no\)             Extract sky, sigma, etc.?)B
+864 8390(\(review = yes\)            Review extractions?\\n)B
+1032 8230(\(line = INDEF\)          Dispersion line)B
+1032 8070(\(nsum = 10\)             Number of dispersion lines to sum\\n)B
+528 7910(\(background = "none"\)         Background to subtract \(none|average|fit\))B
+780 7750(\(weights = "none"\)         Extraction weights \(none|variance\))B
+1032 7590(\(pfit = "fit1d"\)        Profile fitting type \(fit1d|fit2d\))B
+948 7430(\(clean = no\)             Detect and replace bad pixels?)B
+864 7270(\(skybox = 1\)              Box car smoothing length for sky)B
+528 7110(\(saturation = INDEF\)          Saturation level)B
+612 6950(\(readnoise = "0."\)           Read out noise sigma \(photons\))B
+1032 6790(\(gain = "1."\)           Photon gain \(photons/data number\))B
+864 6630(\(lsigma = 4.\)             Lower rejection threshold)B
+864 6470(\(usigma = 4.\)             Upper rejection threshold)B
+780 6310(\(nsubaps = 1\)              Number of subapertures per aperture)B
+1032 6150(\(mode = "ql"\))B
+1032 5830(cl> apsum)B
+1032 5670(cl> imhead *.ms.imh)B
+1032 5510(cl> implot sp0018.ms         # check extractions)B
+1368 5350(:i sp0027.ms)B
+1368 5190(l)B
+1368 5030(q)B
+360 4710(-------------)B
+360 4550(WAVELENGTH CALIBRATION)B
+7920 14470(We are now ready to determine a wavelength calibration for our arc lamps.)B
+7920 14310(A chart of the lines in the spectrum is in the file spec.eps in the docs)B
+7920 14150(directory.  We will use the tasks IDENTIFY and REIDENTIFY.  You will need to )B
+7920 13990(first determine the width of the line profiles, much like we did for our)B
+7920 13830(stellar profiles earlier.)B
+8592 13510(cl> unlearn identify reidentify)B
+8592 13350(cl> implot sp0027.ms)B
+7920 13030(Now we are ready to run the task IDENTIFY.  The default profile radius)B
+7920 12870(may work fine for these data \(fwidth=4\).  The only parameter that we)B
+7920 12710(need to modify is the coordlist - set this to "linelists$thorium.dat".)B
+7920 12550(When we exit IDENTIFY the wavelength solution will be saved in a database.)B
+8592 12230(cl> lpar identify)B
+8592 12070(cl> epar identify)B
+8592 11910(cl> identify sp0027.ms)B
+8928 11750(?                          # review cursor options for IDENTIFY)B
+8928 11590(w                          # enter the window cursor options)B
+8928 11430(?                          # look at the options)B
+8928 11270(w)B
+8928 11110(f                          # flip the data so increasing wavelength)B
+11364 10950(runs to the right )B
+8592 10630([mark 5 strong features on the plot spanning the spectrum - point the)B
+8676 10470(cursor, type "m", then type in the wavelength.  If the terminal)B
+8676 10310(beeps at you it can not find the line center - on a crowded spectrum)B
+8676 10150(like this it may be necessary to window the plot around the line)B
+8676 9990(you wish to identify - use "w" followed by "e" at the lower left)B
+8676 9830(corner of the box you wish to expand and then "e" at the top right)B
+8676 9670(edge of the box - type "w" followed by "a" to go back to the full)B
+8676 9510(plot])B
+8928 9190(f                          # fit the lines and enter ICFIT)B
+8928 9030(?                          # look at cursor options)B
+8928 8870(:func cheby                # change function)B
+8928 8710(:order 3                   # set to quadratic)B
+8928 8550(f                          # refit)B
+8928 8390(q                          # go back to IDENTIFY)B
+8928 8230(w                          # to get spectrum back if it is not)B
+8928 8070(a                            there)B
+8928 7910(l                          # to find other lines from thorium.dat)B
+11364 7750(file)B
+8928 7590(f                          # fit the lines and enter ICFIT)B
+8928 7430(:nite 2                    # iterate the solution to remove bad)B
+11364 7270(lines)B
+8928 7110(f                          # refit)B
+8928 6950(d                          # delete a few other outliers by pointing)B
+11364 6790(the cursor and typing "d")B
+8928 6630(f                          # redo fit)B
+8928 6470(q                          # go back to IDENTIFY)B
+8928 6310(d                          # delete other poor lines - we should)B
+11364 6150(be able to get a solution with an)B
+11364 5990(RMS=~0.01 A in ICFIT)B
+8928 5830(f                          # redo fit)B
+8928 5670(l                          # look at the fit of the non-linear)B
+11364 5510(components)B
+8928 5350(q                          # go back to IDENTIFY)B
+8928 5190(q                          # quit IDENTIFY when you are happy with)B
+11364 5030(the fit - be sure to save it!)B
+8592 4710(cl> dir database               # the solution is saved in the )B
+11364 4550(idsp0027.ms file)B
+8592 4390(cl> page database/idsp0027.ms)B
+EndPage
+%%Page: ? 4
+StartPage
+Landscape
+()(spectra)[(93/09/18)(14:35:40)](4)Gaudy
+0 F
+360 14310(Now we can run REIDENTIFY on our other arc spectrum using sp0027.ms as our)B
+360 14150(reference image.)B
+1032 13830(cl> reidentify sp0027.ms sp0018.ms coord=linelists$thorium.dat v+ inter+)B
+1032 13510([or do epar followed by a :go - you will have the option of reviewing)B
+1116 13350(the fit with IDENTIFY])B
+1032 13030(cl> imhead sp0027.ms l+)B
+360 12710(Notice the keyword refspec1 set to the name of the image itself.  This keyword)B
+360 12550(was added by IDENTIFY/REIDENTIFY and defines the arcs as "reference images".)B
+360 12390(The next task, REFSPECTRA, assigns "reference images" to our object frames,)B
+360 12230(allowing us to select various ways for determining these assignments.  For)B
+360 12070(this data set we should assign the arcs by the UT time at the middle of the)B
+360 11910(exposure.  This value is not in our image headers so we will need to put it)B
+360 11750(there with the task SETAIRMASS.  SETAIRMASS expects certain information to)B
+360 11590(compute this value but we are fortunate that that information is already in)B
+360 11430(our headers!)B
+1032 11110(cl> hselect sp*.ms.imh $I,ut,exptime yes)B
+1032 10950(cl> lpar setairmass)B
+1032 10790(cl> setairmass sp*.ms.imh update-)B
+1032 10630(cl> setairmass sp*.ms.imh)B
+1032 10470(cl> imhead sp0027.ms l+)B
+360 10150(Now edit the parameters for REFSPECTRA so they look like those below.)B
+1032 9830(cl> epar refspectra)B
+360 9510(cl> lpar refspectra)B
+1032 9350(input = "sp*.ms.imh"    List of input spectra)B
+948 9190(answer = "no"            Accept assignment?)B
+528 9030(\(references = "sp*.ms.imh"\)   List of reference spectra)B
+612 8870(\(apertures = ""\)             Input aperture selection list)B
+864 8710(\(refaps = ""\)             Reference aperture selection list)B
+612 8550(\(ignoreaps = yes\)            Ignore input and reference apertures?)B
+864 8390(\(select = "interp"\)       Selection method for reference spectra)B
+1032 8230(\(sort = "utmiddle"\)     Sort key)B
+948 8070(\(group = ""\)             Group key)B
+1032 7910(\(time = yes\)            Is sort key a time?)B
+696 7750(\(timewrap = 17.\)            Time wrap point for time sorting)B
+696 7590(\(override = no\)             Override previous assignments?)B
+780 7430(\(confirm = yes\)            Confirm reference spectrum assignments?)B
+864 7270(\(assign = yes\)            Assign the reference spectra to the input spect)B
+696 7110(\(logfiles = "STDOUT,logfile"\) List of logfiles)B
+780 6950(\(verbose = no\)             Verbose log output?)B
+1032 6790(\(mode = "ql"\)      )B
+1032 6470(cl> refspectra          # answer "yes" or "YES" - what's the difference?)B
+1032 6310(cl> imhead sp0025.ms l+ # note the new keywords)B
+360 5990(The task that actually applies the wavelength calibration to our data is the)B
+360 5830(task DISPCOR.  It uses the refspec keyword information in the header to)B
+360 5670(determine what arcs to use to apply the solution.)B
+360 5350(Edit the parameters for DISPCOR so they resemble those below.  We will linearize)B
+360 5190(the data, which means the data is rebinned so each pixel has the same delta)B
+360 5030(lambda; if we chose not to linearize then the data values would be unaltered)B
+360 4870(and the coefficients for the solution would be stored in the image header.  We)B
+360 4710(set global=yes so all frames will have the same starting wavelength and)B
+360 4550(wavelength increment.  We will run the task first with listonly=yes.)B
+8592 14470(cl> epar dispcor)B
+7920 14150(cl> lpar dispcor)B
+8592 13990(input = "sp*.ms.imh"    List of input spectra)B
+8508 13830(output = "%sp%l%*.ms.imh" List of output spectra)B
+8172 13670(\(linearize = yes\)            Linearize \(interpolate\) spectra?)B
+8256 13510(\(database = "database"\)     Dispersion solution database)B
+8508 13350(\(table = ""\)             Wavelength table for apertures)B
+8760 13190(\(w1 = INDEF\)          Starting wavelength)B
+8760 13030(\(w2 = INDEF\)          Ending wavelength)B
+8760 12870(\(dw = INDEF\)          Wavelength interval per pixel)B
+8760 12710(\(nw = INDEF\)          Number of output pixels)B
+8676 12550(\(log = no\)             Logarithmic wavelength scale?)B
+8592 12390(\(flux = yes\)            Conserve flux?)B
+8256 12230(\(samedisp = no\)             Same dispersion in all apertures?)B
+8424 12070(\(global = yes\)            Apply global defaults?)B
+8172 11910(\(ignoreaps = no\)             Ignore apertures?)B
+8340 11750(\(confirm = yes\)            Confirm dispersion coordinates?)B
+8256 11590(\(listonly = yes\)            List the dispersion coordinates only?)B
+8340 11430(\(verbose = yes\)            Print linear dispersion assignments?)B
+8340 11270(\(logfile = ""\)             Log file)B
+8592 11110(\(mode = "ql"\)           )B
+8592 10790(cl> dispcor)B
+7920 10470(Now let's do it for real.  Type "NO" when queried about changing assignments.)B
+8592 10150(cl> dispcor listonly-)B
+8592 9990(cl> imhead l0025.ms l+)B
+7920 9670(Congratulations!  You have done it!  Now you can play with this data.)B
+8592 9350(cl> splot l0025.ms          # welcome to the world of SPLOT - now)B
+11112 9190(that you are experienced IRAF users)B
+11112 9030(check out this very versatile analysis)B
+11112 8870(tool!)B
+8592 8710(cl> specplot l0020.ms,l0021.ms,l0022.ms)B
+7920 8390(Since the oberver took 3 frames of each spectrum it may be that he planned)B
+7920 8230(to combine them in such a way as to eliminate the cosmic rays.)B
+8592 7910(cl> scombine l0020.ms,l0021.ms,l0022.ms spec1 combine=median scale=mode)B
+8592 7750(cl> splot spec1)B
+8928 7590(o                        # overplot original spectra)B
+8928 7430(g)B
+8928 7270(l0020.ms)B
+8928 7110(o)B
+8928 6950(g)B
+8928 6790(l0021.ms)B
+8928 6630(o)B
+8928 6470(g)B
+8928 6310(l0022.ms)B
+8928 6150(g)B
+8928 5990(spec1)B
+8928 5830(q)B
+7920 5510(Note that SPLOT has cursor keys for cleaning bad pixels as well.  Look at)B
+7920 5350(the line measuring cursor keys in SPLOT too.  Experiment!)B
+7920 5030(-------------------------------------------------------------------------------)B
+10692 4710(References)B
+7920 4390(A User's Guide to Reducing Slit Spectra with IRAF, by Phil Massey, Frank)B
+EndPage
+%%Page: ? 5
+StartPage
+Landscape
+()(spectra)[(93/09/18)(14:35:40)](5)Gaudy
+0 F
+360 14470(Valdes, and Jeannette Barnes, April 1992. )B
+360 14150(Online help is available for all tasks.  Especially see)B
+360 13990("phelp onedspec.package".)B
+360 13670(See "phelp doslit" for doing it all in one big gulp, and better too, since)B
+360 13510(it extracts the arcs for each stellar spectrum.)B
+360 13190(-------------------------------end of exercise---------------------------------)B
+EndPage
+%%Trailer
+EndEnscriptDoc
+EnscriptJob restore
